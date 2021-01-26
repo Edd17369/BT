@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'Btapp', # hay que agregar la aplicacion
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
