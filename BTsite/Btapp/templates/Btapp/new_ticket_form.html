@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+<!--https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html-->
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="background-color: #ffbd08; color: black;">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+{% endfor %}
+
+<div class="container">
+    <br>
+    <section>
+        <h1>Register a new Ticket</h1>
+    </section>
+
+    <br> 
+    <section>
+        <!--Cross Site Request Forgery protection, 
+            In order to upload files, you’ll need to make sure that your <form> element correctly defines the enctype-->
+        <form enctype="multipart/form-data" action="/new_ticket/" method="POST">{% csrf_token %} 
+            <div class="form-row">
+                <div class=" form-group col-md-4">
+                    {{form.author|as_crispy_field}}
+                </div>
+                <div class=" form-group col-md-4">
+                    {{form.project|as_crispy_field}}
+                </div>
+                <div class=" form-group col-md-8">
+                    {{form.description|as_crispy_field}}
+                </div>
+            </div>
+            <div class="form-row">    
+                <div class="form-group col-md-8">
+                    {{form.level|as_crispy_field}}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class=" form-group col-md-4">
+                    {{form.keywords|as_crispy_field}}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-8">
+                    <label style="color: #000000;"></label>
+                    {{form.attachments|as_crispy_field}}
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-outline-dark">Submit</button> <!--puedes usar button o input funciona igual-->
+                                                                               <!--outline es para que no tenga fondo de color y dark es el color-->           
+        </form>
+        <br>
+    </section>
+</div>
+
+{% endblock %}

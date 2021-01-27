@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 
+import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -37,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles',  # busca los archivos estaticos automaticamente cunado usas runserver when DEBUG = True
+
+    'crispy_forms', # para usar bootstrap en las vistas de los formularios hay que installar el modulo: pip install django-crispy-forms
 ]
 
 MIDDLEWARE = [
@@ -118,4 +122,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/' #  this will be used as the base path for asset definitions (theMediaclass) and the staticfiles app.
+
+
+# Your project will probably also have static assets that aren’t tied to a particular app. In addition to using a static/ directory inside your apps, you 
+# can define a list of directories (STATICFILES_DIRS) in your settings file where Django will also look for static files
+
+# DEBUG TRUE STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # una lista de directorios donde Django también buscará archivos estáticos.
+
+
+# Full path to a directory where store uploaded files. These files are not stored in the database, 
+# all that will be stored in your database is a path to the file
+
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img') 
+#MEDIA_URL = '/img/' # as the base public URL of that directory

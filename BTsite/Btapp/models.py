@@ -25,9 +25,11 @@ class Project(models.Model):
     registration_date = models.DateTimeField(auto_now_add=True)
 
     def number_of_tickets(self):
-        list_reports = Ticket.objects.filter(project=self)
-        return len(list_reports)
+        list_of_tickets = Ticket.objects.filter(project=self)
+        return len(list_of_tickets)
 
+    # It’s important to add __str__() methods to your models, not only for your own convenience when dealing with the interactive
+    # prompt, but also because objects’ representations are used throughout Django’s automatically-generated admin.
     def __str__(self):
         return self.title
 
@@ -67,7 +69,7 @@ class Ticket(models.Model):
 
     description = models.TextField(max_length=500)
     keywords = models.TextField(max_length=100, null=True, blank=True)
-    comments = models.TextField(max_length=200, null=True, blank=True)
+    comments = models.TextField(max_length=1000, null=True, blank=True)
     attachments = models.FileField(blank=True, null=True, upload_to='uploads') # to specify a subdirectory of MEDIA_ROOT: MEDIA_ROOT/uploads
 
 
@@ -75,11 +77,12 @@ class TicketForm(ModelForm):
     class Meta:
         model = Ticket
         fields = '__all__'  # to indicate that all fields in the model should be used.
-        #exclude = ['active', 'duration', 'solution'] # si quieres excluir un campo en el formulario
+        #exclude = ['stage'] # si quieres excluir un campo en el formulario
         widgets = {'author': widgets.Select(attrs={'disabled': True}), # widgets: la forma en que se despliegan los campos del formulario
                    'opening_date':widgets.DateTimeInput(),
                    'last_modified':widgets.DateTimeInput(),
-                   'description': widgets.Textarea(attrs={'rows': 4}),
+                   'description': widgets.Textarea(attrs={'rows': 5}),
+                   'keywords': widgets.Textarea(attrs={'rows':2}),
                    } # ,'attachment':widgets.ClearableFileInput(attrs={'multiple':True}) 
         #labels = {'publication_date': _('Date'),
         #          'active': _('Status: Active')
