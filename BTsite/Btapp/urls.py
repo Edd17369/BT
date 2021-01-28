@@ -11,7 +11,7 @@ from django.conf.urls.static import static
 "La creamos"
 
 urlpatterns = [
-    #path('', views.index, name='home'),
+    path('', views.home, name='home'),
     path('new_ticket/', views.new_ticket, name='new_ticket'),
     path('new_project/', views.new_project, name='new_project'),
     #path('login/' auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),

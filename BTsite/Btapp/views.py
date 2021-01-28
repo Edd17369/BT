@@ -17,6 +17,8 @@ def new_ticket(request):
     user = User.objects.get(username=request.user)
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES)
+        request.POST._mutable = True
+        form.data['author'] = user
         if form.is_valid():
             form.save()
             messages.success(request, 'Your ticket has been saved!')
@@ -27,19 +29,25 @@ def new_ticket(request):
         pass
     else:
         form = TicketForm(initial={'author':user})
-        return render(request, "Btapp/new_ticket_form.html", {"form":form}) # HttpResponse object, render is just a shortcut
+        return render(request, "Btapp/new_ticket.html", {"form":form}) # HttpResponse object, render is just a shortcut
 
 def new_project(request):
     user = User.objects.get(username=request.user)
     if request.method == 'POST':
         form = ProjectForm(request.POST)
+        #request.POST._mutable = True
+        #form.data['author'] = user
         if form.is_valid():
             form.save()
             messages.success(request, 'Your project has been saved')
-            return render(request, "Btapp/new_project_form.html", {"form":form})
+            return render(request, "Btapp/new_project.html", {"form":form})
         else:
             messages.warning(request, 'Please check the field entries.')
-            render(request, "Btapp/new_project_form.html", {"form":form})
+            return render(request, "Btapp/new_project.html", {"form":form})
     else:
         form = ProjectForm(initial={'author':user})
-        return render(request, "Btapp/new_project_form.html", {"form":form})
+        return render(request, "Btapp/new_project.html", {"form":form})
+
+
+def home(request):
+    return render(request, "Btapp/home.html")

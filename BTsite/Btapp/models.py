@@ -38,8 +38,8 @@ class ProjectForm(ModelForm):
     class Meta:
         model = Project
         fields = '__all__'
-        widgets = {'author': widgets.Select(attrs={'disabled': True}),
-                   'registration_date':widgets.DateTimeInput()}
+        widgets = {'registration_date':widgets.DateTimeInput(), 
+                   'author': widgets.Select(attrs={'disabled': True}),}
 
 
 
@@ -77,13 +77,12 @@ class TicketForm(ModelForm):
     class Meta:
         model = Ticket
         fields = '__all__'  # to indicate that all fields in the model should be used.
-        #exclude = ['stage'] # si quieres excluir un campo en el formulario
-        widgets = {'author': widgets.Select(attrs={'disabled': True}), # widgets: la forma en que se despliegan los campos del formulario
-                   'opening_date':widgets.DateTimeInput(),
+        exclude = ['stage'] # si quieres excluir un campo en el formulario
+        widgets = {'opening_date':widgets.DateTimeInput(), # widgets: la forma en que se despliegan los campos del formulario
                    'last_modified':widgets.DateTimeInput(),
                    'description': widgets.Textarea(attrs={'rows': 5}),
-                   'keywords': widgets.Textarea(attrs={'rows':2}),
-                   } # ,'attachment':widgets.ClearableFileInput(attrs={'multiple':True}) 
+                   'keywords': widgets.Textarea(attrs={'rows':2}), 
+                   'author': widgets.Select(attrs={'disabled': True}),} # ,'attachment':widgets.ClearableFileInput(attrs={'multiple':True}) 
         #labels = {'publication_date': _('Date'),
         #          'active': _('Status: Active')
         #          }

@@ -20,9 +20,15 @@
     
 </head>
 
-<body>
+<body style="padding-top: 80px;">
     <header>
         <!-- BARRA de NAVEGACION -->
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark"> 
+            <a href="{% url 'home' %}" class="navbar-brand">Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-label="Toggle navigation"> <!--creo que los aria son opcionales-->
+                <span class="navbar-toggler-icon"></span> <!--El icono de boton de collapso-->
+            </button> 
+        </nav>
     </header>
     
     <div class="content">
