@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <section>
+        <h1>Tickets</h1>    
+    </section>
+    
+    <section>
+        <table
+            class="table table-responsive-sm table-striped "
+            id="table"
+            data-toggle="table"
+            data-search="true"
+            data-show-columns="true"
+            data-pagination="true"
+            data-height="460">
+            <thead class="thead-dark"> <!--Ya es responsive por defecto-->
+                <tr>
+                    <th data-field="id" data-sortable="true"># Ticket</th>
+                    <th data-field="description data-sortable="false">Summary</th>
+                    <th data-field="author" data-sortable="false">Author</th>
+                    <th data-field="project">Project</th>
+                    <th data-field="opening_date" data-sortable="true">Date</th>
+                    <th data-field="stage" data-sortable="true">Stage</th>
+                    <th data-field="level" data-sortable>Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in ticket_list %}
+                <tr>
+                    <th>{{ticket.id}}</th>
+                    <th><a href="{% url 'ticket_detail' ticket.id %}">{{ticket.description}}</a></th> <!--En href no pogas espacios entre los % y }-->
+                    <th>{{ticket.author}}</th>
+                    <th>{{ticket.project}}</th>
+                    <th>{{ticket.opening_date}}</th>
+                    <th>{{ticket.get_stage_display}}</th>
+                    <th>{{ticket.get_level_display}}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</div>
+
+{% endblock %}

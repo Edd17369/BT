@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+<!--https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html-->
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<table class="table table-responsive-sm" style="margin-block: 0pt;">
+    <thead>
+        <h1>Ticket {{ ticket.id }}</h1>
+        <br>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Author:</th><td class="segunda-col">{{ticket.author}}</td>
+            <th>Project:</th><td class="segunda-col">{{ticket.project}}</td>
+        </tr>
+        <tr>
+            <th>Level:</th><td class="segunda-col">{{ticket.get_level_display}}</td>
+            <th>Stage:</th><td class="segunda-col">{{ticket.get_stage_display}}</td>
+        </tr>
+        <tr>
+            <th>Opening Date:</th><td class="segunda-col">{{ticket.opening_date}}</td>
+            <th>Last Modified:</th><td class="segunda-col">{{ticket.last_modified}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-responsive-sm" style="margin-block: 0pt;">
+    <tbody>
+        <tr><th>Description:</th><td class="segunda-col">{{ticket.description}}</td></tr>
+        <tr><th>Keywords:</th><td class="segunda-col">{{ticket.keywords}}</td></tr>
+        <tr><th>Comments:</th><td class="segunda-col">{{ticket.comments}}</td></tr>
+        <tr><th>Attachments:</th><td class="segunda-col">{{ticket.attachments}}</td></tr>
+    </tbody>
+</table>
+
+
+
+{% endblock %}

@@ -53,7 +53,7 @@ class Ticket(models.Model):
         Critical = 90, _('Critical')
     class Stages(models.TextChoices):
         Registered = 20, _('Registered')
-        Accepted = 40, _('Accepted')
+        #Accepted = 40, _('Accepted')
         Working_On = 60, _('Working on')
         Closed = 80, _('Closed')
 
@@ -77,7 +77,7 @@ class TicketForm(ModelForm):
     class Meta:
         model = Ticket
         fields = '__all__'  # to indicate that all fields in the model should be used.
-        exclude = ['stage'] # si quieres excluir un campo en el formulario
+        #exclude = ['stage'] # si quieres excluir un campo en el formulario
         widgets = {'opening_date':widgets.DateTimeInput(), # widgets: la forma en que se despliegan los campos del formulario
                    'last_modified':widgets.DateTimeInput(),
                    'description': widgets.Textarea(attrs={'rows': 5}),
