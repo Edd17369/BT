@@ -37,4 +37,7 @@ urlpatterns = [
     
     path('update_profile/', views.home, name='update_profile'),
 
-] #+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG: # Para que pueda mostrar el MEDIA_URL en deployment, no se recomienda para produccion
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

@@ -1,0 +1,128 @@
+/* Si cambias el directorio de static modifica "{% static 'Btapp/css/style.css' %}" en la parte de stilos del template base.html */
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background: linear-gradient(to right, #222220, #fe3b3b);
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    padding-top: 80px; /* Para que la Navbar no se encime con el contenido de la pagina (hicimos que el Navbar este fijo en el top de la pagina) */
+    /* padding-bottom: 80px;  NO pongas esto es lo que mantenia el error con el footer */
+    /*position: relative 1*/;
+    
+    /* solucion al problema del footer */
+    display: flex; /* This defines a flex container */
+    flex-direction: column; /* defining the direction flex items are placed in the flex container */
+    height: 100%;
+}
+
+/* solucion al problema del footer */
+.content {
+    flex: 1 0 auto; /* This is the shorthand for flex-grow, flex-shrink and flex-basis combined. The default is 0 1 auto */
+}
+
+header {
+    background: #343a40;
+    color: #ffc107;
+}
+
+.main {
+    background: #4e454500;
+}
+
+footer {
+    /* solucion al problema del footer */
+    flex-shrink: 0; /* Esto define la capacidad de un artículo flexible de encogerse si es necesario. */
+    margin-top: 80px;
+
+    background-color: #13322B;
+    color: white;
+    text-align: center;
+    font-weight: 300
+}
+
+.color {
+    background: #343a40;
+    color: #ffc107;
+}
+
+.color1 {
+    background: #fff;
+    color: #343a40;
+}
+
+aside {
+    background: #343a40;
+    color: #fff;
+}
+
+.container {
+    align-items: stretch;
+}
+
+h1 {
+    background-color: #343a40;
+    font-family: 'Raleway';
+    color: #fff;
+    border: 0.25rem solid #343a40;
+    border-style: groove;
+}
+
+.dropdown-menu {
+    background: #343434;
+}
+
+.tab-content {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.dropdown-item {
+    color: #fff;
+}
+
+.h2-table {
+    background-color: #343a40;
+    font-family: 'Raleway';
+    color: #fff;
+    border: 0.25rem solid #343a40;
+    border-style: groove;
+}
+
+.h3-table {
+    background-color: #343a40;
+    font-family: 'Raleway';
+    color: #fff;
+    border: 0.25rem solid #343a40;
+    border-style: groove;
+}
+
+.card-img{
+    max-width: 150px;
+    max-height: 150px;
+    margin: 0 auto;
+    border-radius: 75%;
+    margin-block: 10pt;
+    border-width: 20pt;
+    border: #ffc107;
+    border-style: groove;
+}
+.card{
+    align-self: center;
+    background-color: #343434;
+}
+.p-profile{
+    font-size: 17px;
+    font-style: oblique;
+}
+
+.card-text{
+    color: #ffc107;
+}
+
+.segunda-col {
+    color: #ffc107; 
+    font-family: fantasy;
+}

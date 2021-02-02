@@ -122,19 +122,16 @@ LOGIN_URL = '/login/' # asociamos el login del sitio al url '/login/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
 STATIC_URL = '/static/' #  this will be used as the base path for asset definitions (theMediaclass) and the staticfiles app.
 
-
-# Your project will probably also have static assets that aren’t tied to a particular app. In addition to using a static/ directory inside your apps, you 
-# can define a list of directories (STATICFILES_DIRS) in your settings file where Django will also look for static files
-
-#STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # una lista de directorios donde Django también buscará archivos estáticos.
+# In addition to using a static/ directory inside your apps, you can define a list of directories (STATICFILES_DIRS) 
+# in your settings file where Django will also look for static files
+#STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # NO uso otra carpeta para guardar statics asi que no cambia nada
 
 # Full path to a directory where store uploaded files. These files are not stored in the database, 
 # all that will be stored in your database is a path to the file
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img') 
-#MEDIA_URL = '/img/' # as the base public URL of that directory
+MEDIA_ROOT = BASE_DIR / Path('Btapp/static/Btapp') #os.path.join(BASE_DIR, 'Btapp/static/uploads') 
+MEDIA_URL = '/uploads/' # as the base public URL of that directory
 
 # SendGrid
 SENDGRID_API_KEY = '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'
@@ -145,3 +142,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = 'fausten17@hotmail.com' # tiene que ser el correo que diste en sendgrid (no el usuario: 'falsodonfalso@gmail.com') 
+
+# The absolute path to the directory where collectstatic will collect static files for deployment. STATIC_ROOT looks in all 
+# locations defined in STATICFILES_DIRS and in the 'static' directory of apps specified
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 

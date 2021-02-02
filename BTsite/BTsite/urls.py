@@ -26,5 +26,5 @@ urlpatterns = [
     path('', include('Btapp.urls')), # Incluir el urls.py que creamos para la app
 ]
 
-#if settings.DEBUG: # Para que pueda mostrar el MEDIA_URL
-#    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+if settings.DEBUG: # Para que pueda mostrar el MEDIA_URL en deployment, no se recomienda para produccion
+    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

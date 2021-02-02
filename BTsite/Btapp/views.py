@@ -93,7 +93,7 @@ def project_detail(request, id):
     return render(request, 'Btapp/ticket_index.html', {'ticket_list': ticket_list})
 
 
-### Sign
+### SIGN
 def sign(request):
     if request.method == 'POST':
         form = SignForm(request.POST)
