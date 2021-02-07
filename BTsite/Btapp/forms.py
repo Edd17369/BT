@@ -6,3 +6,5 @@ class SignForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput, help_text=password_validators_help_text_html)
     confirm_password = forms.CharField(widget=forms.PasswordInput, help_text="Enter the same password as before, for verification.")
+
+

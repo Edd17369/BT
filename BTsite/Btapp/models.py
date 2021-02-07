@@ -6,33 +6,27 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-# Objectivo: registrar las bases de datos.
-
-# La base de datos de un BTS debe registrar los hechos e historia de un fallo de software. 
-# Los hechos pueden ser una descripcion detallada del fallo, la severidad del evento, forma de reproducirlo, 
-# los usuarios involucrados en la solución así como fecha probable de solucion y codigo que corrige el 
-# problema o posibles soluciones. 
-
-# La base de datos se debe de rellenar con un formulario
-# la primera vez que corras el server hay que hacer antes las migraciones
-# cada que modifiques los campos del modelo hay que hacer las migraciones (cosas de estilo no)
-# registra el modelo en el admin.py
-
 
 class Project(models.Model):
     title = models.CharField(max_length=30)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     registration_date = models.DateTimeField(auto_now_add=True)
 
-    def number_of_tickets(self):
+    def my_tickets(self):
         list_of_tickets = Ticket.objects.filter(project=self)
-        return len(list_of_tickets)
+        return list_of_tickets
+    def has_open_tickets(self):
+        my_tickets = Ticket.objects.filter(project=self)
+        for t in my_tickets:
+            if t.stage != '80':
+                return True
+        return False
+
 
     # It’s important to add __str__() methods to your models, not only for your own convenience when dealing with the interactive
     # prompt, but also because objects’ representations are used throughout Django’s automatically-generated admin.
     def __str__(self):
         return self.title
-
 
 class ProjectForm(ModelForm):
     class Meta:
@@ -72,7 +66,6 @@ class Ticket(models.Model):
     comments = models.TextField(max_length=1000, null=True, blank=True)
     attachments = models.FileField(blank=True, null=True, upload_to='uploads') # to specify a subdirectory of MEDIA_ROOT: MEDIA_ROOT/uploads
 
-
 class TicketForm(ModelForm):
     class Meta:
         model = Ticket
@@ -86,3 +79,19 @@ class TicketForm(ModelForm):
         #labels = {'publication_date': _('Date'),
         #          'active': _('Status: Active')
         #          }
+
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
+    phone = models.CharField(max_length=100, help_text="Use the format ###-###-####", null=True, blank=True)
+    profile_pic = models.ImageField(default='img/user.jpg', blank=True, null=True, upload_to = 'img') # Para ImageField necesitas instalar Pillow
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = '__all__'
+        exclude = ['user', 'email']
+        labels = {'profile_pic': _('Profile Picture')}

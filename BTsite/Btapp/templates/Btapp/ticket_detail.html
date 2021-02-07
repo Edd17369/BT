@@ -13,29 +13,44 @@
     </thead>
     <tbody>
         <tr>
-            <th>Author:</th><td class="segunda-col">{{ticket.author}}</td>
-            <th>Project:</th><td class="segunda-col">{{ticket.project}}</td>
+            <th>Author:</th><td>{{ticket.author}}</td>
+            <th>Project:</th><td>{{ticket.project}}</td>
         </tr>
         <tr>
-            <th>Level:</th><td class="segunda-col">{{ticket.get_level_display}}</td>
-            <th>Stage:</th><td class="segunda-col">{{ticket.get_stage_display}}</td>
+            <th>Level:</th><td>{{ticket.get_level_display}}</td>
+            <th>Stage:</th><td>{{ticket.get_stage_display}}</td>
         </tr>
         <tr>
-            <th>Opening Date:</th><td class="segunda-col">{{ticket.opening_date}}</td>
-            <th>Last Modified:</th><td class="segunda-col">{{ticket.last_modified}}</td>
+            <th>Opening Date:</th><td>{{ticket.opening_date}}</td>
+            <th>Last Modified:</th><td>{{ticket.last_modified}}</td>
         </tr>
     </tbody>
 </table>
 
 <table class="table table-responsive-sm" style="margin-block: 0pt;">
     <tbody>
-        <tr><th>Description:</th><td class="segunda-col">{{ticket.description}}</td></tr>
-        <tr><th>Keywords:</th><td class="segunda-col">{{ticket.keywords}}</td></tr>
-        <tr><th>Comments:</th><td class="segunda-col">{{ticket.comments}}</td></tr>
-        <tr><th>Attachments:</th><td class="segunda-col">{{ticket.attachments}}</td></tr>
+        <tr><th>Description:</th><td>{{ticket.description}}</td></tr>
+        <tr><th>Keywords:</th><td>{{ticket.keywords}}</td></tr>
+        <tr><th>Comments:</th><td>{{ticket.comments}}</td></tr>
+        <tr><th>Attachments:</th><td>{{ticket.attachments}}</td></tr>
     </tbody>
 </table>
 
+<br>
+<br>
 
+<a href="{% url 'update_ticket' ticket.id %}" class="btn btn-info" role="button">Update</a>
+<a href="{% url 'delete_ticket' ticket.pk %}" class="btn btn-danger" role="button">Delete</a>
+
+
+<br>
+<br>
+<section>
+    <h2>Comments</h2>
+
+    <form enctype="multipart/form-data" action="/new_comment/" method="POST">{% csrf_token %} 
+    </form>
+
+</section>
 
 {% endblock %}

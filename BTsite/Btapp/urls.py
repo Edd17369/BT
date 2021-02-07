@@ -1,6 +1,9 @@
 from django.urls import path
 from . import views
 
+# Class-based views
+from .views import TicketUpdateView, TicketDeleteView
+
 # Para el sistema de autenticacion de django
 from django.contrib.auth import views as auth_views
 
@@ -8,7 +11,7 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 
-"La creamos"
+
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -17,11 +20,17 @@ urlpatterns = [
     path('new_ticket/', views.new_ticket, name='new_ticket'),
     path('new_project/', views.new_project, name='new_project'),
     path('ticket/index/', views.TicketIndexView.as_view(), name='ticket_index'),
-    path('ticket/<int:pk>/', views.TicketDetailView.as_view(), name='ticket_detail'),
-    #path('ticket/index/', views.ticket_index, name='tickets'), # Ya no se usan uso los de arriba
-    #path('ticket/<int:id>/', views.ticket_detail, name='ticket_id'),
+    #path('ticket/index/', views.ticket_index, name='tickets'), # Uso la vista generica
     path('project/index/', views.ProjectIndexView.as_view(), name='project_index'),
     path('project/<int:id>/', views.project_detail, name='project_detail'),
+    path('delete_ticket/<int:pk>', TicketDeleteView.as_view(), name='delete_ticket'),
+
+    #path('ticket/<int:id>/', views.ticket_detail, name='ticket_detail'),
+    path('ticket/<int:pk>/', views.TicketDetailView.as_view(), name='ticket_detail'),
+
+    path('update_ticket/<int:id>/', views.update_ticket, name='update_ticket'),
+    #path('update_ticket/<int:pk>', TicketUpdateView.as_view(), name='update_ticket'),
+
 
     # Authentication system
     path('login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),  # la carpeta account es necesaria
@@ -32,10 +41,11 @@ urlpatterns = [
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='accounts/reset_password_done.html'), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='accounts/reset_password_confirm.html'), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='accounts/reset_password_complete.html'), name='password_reset_complete'),
-    path('accounts/profile/', views.home, name='profile'), # A donde redirige despues de login
     path('sign_up/', views.sign, name='sign_up'), 
     
-    path('update_profile/', views.home, name='update_profile'),
+    # Dashboard
+    path('accounts/profile/', views.profile, name='profile'), # A donde redirige la vista login 
+    path('settings_profile/', views.setting_profile, name='settings_profile'),
 
 ]
 

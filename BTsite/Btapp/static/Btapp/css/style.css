@@ -5,7 +5,7 @@ html, body {
 }
 
 body {
-    background: linear-gradient(to right, #222220, #fe3b3b);
+    background:#6a7177;
     background-attachment: fixed;
     background-position: center;
     background-size: cover;
@@ -123,6 +123,6 @@ h1 {
 }
 
 .segunda-col {
-    color: #ffc107; 
+    color: rgb(255, 255, 255); 
     font-family: fantasy;
 }

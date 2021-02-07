@@ -24,18 +24,20 @@
                     <th data-field="opening_date" data-sortable="true">Date</th>
                     <th data-field="stage" data-sortable="true">Stage</th>
                     <th data-field="level" data-sortable="true">Level</th>
+                    <th>Details</th>
                 </tr>
             </thead>
             <tbody>
                 {% for ticket in ticket_list %}
                 <tr>
                     <th>{{ticket.id}}</th>
-                    <th><a href="{% url 'ticket_detail' ticket.id %}">{{ticket.description}}</a></th> <!--En href no pogas espacios entre los % y }-->
+                    <th>{{ticket.description}}</a></th> <!--En href no pogas espacios entre los % y }-->
                     <th>{{ticket.author}}</th>
                     <th>{{ticket.project}}</th>
                     <th>{{ticket.opening_date}}</th>
                     <th>{{ticket.get_stage_display}}</th>
                     <th>{{ticket.get_level_display}}</th>
+                    <th><a href="{% url 'ticket_detail' ticket.id %}" class="btn btn-primary">Go</a></th>
                 </tr>
                 {% endfor %}
             </tbody>

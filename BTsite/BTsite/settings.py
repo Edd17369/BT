@@ -126,7 +126,10 @@ STATIC_URL = '/static/' #  this will be used as the base path for asset definiti
 
 # In addition to using a static/ directory inside your apps, you can define a list of directories (STATICFILES_DIRS) 
 # in your settings file where Django will also look for static files
-#STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # NO uso otra carpeta para guardar statics asi que no cambia nada
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # NO uso otra carpeta para guardar statics asi que agregarlo no cambia nada
+
+# Igual que STATICFILES_DIRS sirve para buscar otros templates fuera de la app
+# TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'template').replace('\\','/'),) # Agregarlo tampoco cambia nada
 
 # Full path to a directory where store uploaded files. These files are not stored in the database, 
 # all that will be stored in your database is a path to the file
