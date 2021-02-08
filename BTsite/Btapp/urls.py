@@ -2,7 +2,8 @@ from django.urls import path
 from . import views
 
 # Class-based views
-from .views import TicketUpdateView, TicketDeleteView
+from .views import UsersIndexView 
+from django.contrib.auth.decorators import  login_required # Para las CBV aunque solo sea una XD
 
 # Para el sistema de autenticacion de django
 from django.contrib.auth import views as auth_views
@@ -20,17 +21,15 @@ urlpatterns = [
     path('new_ticket/', views.new_ticket, name='new_ticket'),
     path('new_project/', views.new_project, name='new_project'),
     path('ticket/index/', views.TicketIndexView.as_view(), name='ticket_index'),
-    #path('ticket/index/', views.ticket_index, name='tickets'), # Uso la vista generica
     path('project/index/', views.ProjectIndexView.as_view(), name='project_index'),
     path('project/<int:id>/', views.project_detail, name='project_detail'),
-    path('delete_ticket/<int:pk>', TicketDeleteView.as_view(), name='delete_ticket'),
-
-    #path('ticket/<int:id>/', views.ticket_detail, name='ticket_detail'),
+    #path('delete_ticket/<int:pk>', login_required(TicketDeleteView.as_view()), name='delete_ticket'),
+    path('delete_ticket/<int:pk>', views.delete_ticket, name='delete_ticket'),
     path('ticket/<int:pk>/', views.TicketDetailView.as_view(), name='ticket_detail'),
-
     path('update_ticket/<int:id>/', views.update_ticket, name='update_ticket'),
-    #path('update_ticket/<int:pk>', TicketUpdateView.as_view(), name='update_ticket'),
 
+    # Users
+    path('user/index/', views.UsersIndexView.as_view(), name='user_index'),
 
     # Authentication system
     path('login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),  # la carpeta account es necesaria
@@ -47,6 +46,8 @@ urlpatterns = [
     path('accounts/profile/', views.profile, name='profile'), # A donde redirige la vista login 
     path('settings_profile/', views.setting_profile, name='settings_profile'),
 
+    # Contact
+    path('contact/', views.contact, name='contact'),
 ]
 
 if settings.DEBUG: # Para que pueda mostrar el MEDIA_URL en deployment, no se recomienda para produccion

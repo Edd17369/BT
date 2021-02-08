@@ -24,18 +24,68 @@
 <body style="padding-top: 80px;">
     <header>
         <!-- BARRA de NAVEGACION -->
+        <!--Navbars can utilize .navbar-toggler, .navbar-collapse, and .navbar-expand{-sm|-md|-lg|-xl} classes to change when their content collapses behind a button. 
+            In combination with other utilities, you can easily choose when to show or hide particular elements. For navbars that never collapse, add the 
+            .navbar-expand class on the navbar. For navbars that always collapse, don’t add any .navbar-expand class.-->
         <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark"> 
-            <a href="{% url 'home' %}" class="navbar-brand">Home</a>
-            <a href="{% url 'ticket_index' %}" class="navbar-brand">Tickets</a>
-            <a href="{% url 'project_index' %}" class="navbar-brand">Projects</a>
-            <a href="{% url 'login' %}" class="navbar-brand">Login</a>
-            <a href="{% url 'logout' %}" class="navbar-brand">Logout</a>
-            <a href="{% url 'password_change' %}" class="navbar-brand">Change password</a>
-            <a href="{% url 'profile' %}"class="navbar-brand">Profile</a>
-
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-label="Toggle navigation"> <!--creo que los aria son opcionales-->
+            <a href="{% url 'home' %}" class="navbar-brand">
+                <img src="{% static '/img/kindred2.jpg' %}" width="30" height="30" class="d-inline-block align-top" loading="lazy">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span> <!--El icono de boton de collapso-->
             </button> 
+            <div class="collapse navbar-collapse" id="navbar"> <!--navbar-collapse for grouping and hiding navbar contents by a parent breakpoint.-->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a href="{% url 'home' %}" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Resgister
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbar">
+                            <a href="{% url 'new_ticket' %}" class="dropdown-item">Ticket</a>
+                            <a href="{% url 'new_project' %}" class="dropdown-item">Project</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown"> 
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Records
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbar">
+                            {% if user.is_staff %}
+                                <a href="{% url 'user_index' %}" class="dropdown-item">Users</a>
+                            {% endif %}
+                            <a href="{% url 'project_index' %}" class="dropdown-item">Projects</a>
+                            <a href="{% url 'ticket_index' %}" class="dropdown-item">Tickets</a>
+                        </div>
+                    </li>       
+                </ul>       
+                <div class="dropdown">
+                    <button class="btn btn-outline-warning dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if user.is_anonymous %}
+                        Guest
+                        {% else %}
+                        {{user}}
+                        {% endif %}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                        {% if user.is_anonymous %}
+                            <a href="{% url 'login' %}" class="dropdown-item">
+                            <img class="profile-pic" src="{% static 'Btapp/img/user.jpg' %}" alt="" loading="lazy" style="width: 25pt; height: 25pt; border-radius: 50%;">
+                            Profile</a>
+                            {% else %}
+                            <a href="{% url 'profile' %}" class="dropdown-item">
+                                <img class="profile-pic" src="{{user.profile.profile_pic.url}}" alt="" loading="lazy" style="width: 25pt; height: 25pt; border-radius: 50%;">
+                                Profile</a>
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
+                        <a href="{% url 'logout' %}" class="dropdown-item">
+                            <img src="{% static 'Btapp/img/logout.png' %}" alt="" class="d-inline-block align-top" loading="lazy" style="width: 25pt; height: 25pt; border-radius: 50%;">
+                            Logout</a>
+                    </div>
+                </div>
+            </div>
         </nav>
     </header>
     
@@ -54,7 +104,7 @@
 
     <!-- Footer -->
     <footer>
-       <!-- FOOTER  -->
+        <p><a href="{% url 'contact' %}" style="color: white;">Contact</a></p>
     </footer>
 
     <!-- Bootstrap JS-->

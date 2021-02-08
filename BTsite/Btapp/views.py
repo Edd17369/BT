@@ -4,7 +4,7 @@ from .models import Ticket, TicketForm, Project, ProjectForm, Profile, ProfileFo
 from django.contrib.auth.models import User
 
 # Forms
-from .forms import SignForm
+from .forms import SignForm, Contact
 
 # Authentication
 from django.contrib.auth.decorators import login_required
@@ -19,6 +19,7 @@ from django.contrib import messages
 # Generic Views
 from django.views import generic
 from django.views.generic.edit import UpdateView, DeleteView
+from django.contrib.auth.mixins import UserPassesTestMixin # *
 
 # Graphs
 from collections import defaultdict
@@ -26,6 +27,7 @@ from plotly.offline import plot
 import plotly.graph_objs as go
 import pandas as pd
 import plotly.express as px
+
 
 
 ### HOME
@@ -52,51 +54,63 @@ def new_ticket(request):
         form = TicketForm(initial={'author':user})
         return render(request, "Btapp/new_ticket.html", {"form":form}) # HttpResponse object, render is just a shortcut
 
-class TicketIndexView(generic.ListView): # Generic display views
+class TicketIndexView(generic.ListView): # Generic display views, automaticamente recibe el object.pk de la url
     template_name = 'Btapp/ticket_index.html'
     context_object_name = 'ticket_list'
-    def get_queryset(self): # Para los generic views los metodos ya estan definidos
+    def get_queryset(self): # Sobrescribir el metodo
         return Ticket.objects.order_by('-opening_date') # Tiene que regresar un QuerySet object
         
 class TicketDetailView(generic.DetailView):
     model = Ticket
     template_name = 'Btapp/ticket_detail.html'
 
-def ticket_detail(request, id): # No la usamos aun
-    ticket = get_object_or_404(Ticket, pk=id) # get_object_or_404 would couple the model layer to the view layer.
-    update = ticket.author == request.user
-    return render(request, 'Btapp/ticket_detail.html', {'ticket': ticket, 'update':update})
-
+"""class TicketDeleteView(DeleteView): 
+    model = Ticket
+    success_url = '/ticket/index/'
+    #default template_name needs to be 'myapp/model_check_delete.html' en este caso ticket_confirm_delete.html
+    #def get_object(self):
+    #    self.author = get_object_or_404(Ticket, pk=self.kwargs['pk'])
+    #    return Ticket.objects.filter(author=self.publisher)
+    def get_object(self): 
+        obj = super().get_object()
+        return obj
+"""
+def delete_ticket(request, pk): # No tiene mucho sentido eliminar un ticket
+    user = User.objects.get(username=request.user)
+    ticket = Ticket.objects.get(pk=pk)
+    if request.method == 'POST':
+        if request.user == ticket.author:
+            ticket.delete()
+            ticket_list = Ticket.objects.order_by('-opening_date')
+            return render(request, "Btapp/ticket_index.html", {'ticket_list':ticket_list})
+        else:
+            messages.warning(request, "Only the ticket's author can delet it.")
+            return render(request, "Btapp/ticket_detail.html", {'ticket':ticket})
+    else:
+        return render(request, "Btapp/ticket_confirm_delete.html", {'object':ticket})
+    
 @login_required
 def update_ticket(request, id):
     user = User.objects.get(username=request.user)
     ticket = Ticket.objects.get(pk=id)
     form = TicketForm(instance=ticket)
     if request.method == 'POST':
-        form = TicketForm(request.POST, request.FILES, instance=ticket)
-        request.POST._mutable = True 
-        form.data['author'] = user
-        if form.is_valid():
-            messages.success(request, 'Your ticket has been updated!')
-            form.save()
-            return render(request, "Btapp/ticket_update.html", {'form':form})
+        if request.user == ticket.author:
+            form = TicketForm(request.POST, request.FILES, instance=ticket)
+            request.POST._mutable = True 
+            form.data['author'] = user
+            if form.is_valid():
+                messages.success(request, 'Your ticket has been updated!')
+                form.save()
+                return render(request, "Btapp/ticket_update.html", {'form':form})
+            else:
+                messages.warning(request, 'Please check the field entries.')
+                return render(request, "Btapp/ticket_update.html", {'form':form})
         else:
-            messages.warning(request, 'Please check the field entries.')
+            messages.warning(request, "Only the ticket's author can edit it.")
             return render(request, "Btapp/ticket_update.html", {'form':form})
     else:
         return render(request, "Btapp/ticket_update.html", {'form':form})
-
-class TicketUpdateView(UpdateView): # Esta no se usa
-    model = Ticket 
-    form_class = TicketForm
-    template_name = "Btapp/ticket_update.html"
-    success_url = '/home/'
-
-class TicketDeleteView(DeleteView): # No tiene mucho sentido eliminar un ticket
-    model = Ticket
-    success_url = '/ticket/index/'
-    # default template_name needs to be 'myapp/model_check_delete.html' en este caso ticket_confirm_delete.html
-    # automaticamente recibe el object.pk de la url
 
 
 ### PROYECTOS
@@ -122,12 +136,25 @@ class ProjectIndexView(generic.ListView):
     template_name = 'Btapp/project_index.html'
     context_object_name = 'project_list'
     def get_queryset(self): 
-        return Project.objects.all() 
+        return Project.objects.order_by('-registration_date')
 
+"""class ProjectDetailView(generic.ListView): # No la he probado, la url regresa pk
+    template_name = 'Btapp/ticket_index.html' # abria que cambiar la url tambien
+    def get_queryset(self):
+        self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        return Ticket.objects.filter(project=self.project)
+"""
 def project_detail(request, id):
     ticket_list = Ticket.objects.filter(project=id).order_by('-opening_date')
     return render(request, 'Btapp/ticket_index.html', {'ticket_list': ticket_list})
 
+
+### USERS
+class  UsersIndexView(generic.ListView):
+    template_name = 'Btapp/user_index.html'
+    context_object_name = 'user_list'
+    def get_queryset(self):
+        return User.objects.order_by('-username')
 
 
 ### ACCOUNTS
@@ -173,7 +200,7 @@ def sign(request):
         return render(request, "accounts/sign.html", {'form':form})
 
 
-### DASHBOARD
+### Profile
 def profile(request):
     user = User.objects.get(username=request.user) # un caso si user es anonimo entonces que lo redirija a login
     projects = [p for p in Project.objects.filter(author=user) if p.has_open_tickets()]
@@ -256,3 +283,30 @@ def setting_profile(request):
     else:
         form = ProfileForm(instance=profile)
         return render(request, "accounts/settings_profile.html", {"form":form, "user":user})
+
+
+def profile_img(request):
+    user = request.user
+    return render(request, "base.html", {'user':user})
+
+
+### CONTACT
+def contact(request):
+    if request.method == 'POST':
+        form = Contact(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            send_mail(
+                data['subject']+'-'+'Username: '+data['username'],
+                data['message']+'\n'+'From: '+data['email'],
+                settings.DEFAULT_FROM_EMAIL, # De donde se envia el correo
+                ['fausten17@gmail.com'], # A donde envia el correo, no envia al correo que diste en DEFAULT_FROM_EMAIL 
+                fail_silently=False,)
+            messages.success(request, 'Your email has been sent. Thank you for contacting us')
+            return render(request, "Btapp/contact.html", {'form':form})
+        else:
+            messages.error(request, 'Your email has not been sent. Check the data you entered')
+            return render(request, "Btapp/contact.html", {'form':form})
+    else:
+        form = Contact()
+        return render(request, "Btapp/contact.html", {'form':form})

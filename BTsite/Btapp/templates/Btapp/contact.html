@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="background-color: #ffbd08; color: black;">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+{% endfor %}
+
+<div class="container">
+    <section>
+        <h2 class="h2-table">Contact us</h2>
+    </section>
+
+    <section>
+        <form method="POST">{% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-8">
+                    {{form.username|as_crispy_field}}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-8">
+                    {{form.email|as_crispy_field}}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-8">
+                    {{form.subject|as_crispy_field}}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-8">
+                    {{form.message|as_crispy_field}}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-outline-dark">Sent</button>
+        </form>
+        <br>
+    </section>
+</div>
+
+{% endblock %}

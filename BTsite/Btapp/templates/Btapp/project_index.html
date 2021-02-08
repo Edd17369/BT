@@ -17,19 +17,21 @@
             data-height="460">
             <thead class="thead-dark"> <!--Ya es responsive por defecto-->
                 <tr>
-                    <th data-field="id" data-sortable="true"># Project</th>
+                    <th data-field="id" data-sortable="true">ID Project</th>
                     <th data-field="author" data-sortable="true">Author</th>
                     <th data-field="title"data-sortable="true">Title</th>
                     <th data-field="registration_date" data-sortable="true">Date</th>
+                    <th>Details</th>
                 </tr>
             </thead>
             <tbody>
                 {% for project in project_list %}
                 <tr>
-                    <th><a href="{% url 'project_detail' project.id %}">{{project.id}}</a></th>
-                    <th>{{project.author}}</th>
-                    <th>{{project.title}}</th>
-                    <th>{{project.registration_date}}</th>
+                    <td>{{project.id}}</a></td>
+                    <td>{{project.author}}</td>
+                    <td>{{project.title}}</td>
+                    <td>{{project.registration_date}}</td>
+                    <td><a href="{% url 'project_detail' project.id %}" class="btn btn-primary">Tickets</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

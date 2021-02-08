@@ -7,4 +7,10 @@ class SignForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput, help_text=password_validators_help_text_html)
     confirm_password = forms.CharField(widget=forms.PasswordInput, help_text="Enter the same password as before, for verification.")
 
+class Contact(forms.Form):
+    username = forms.CharField(max_length=30)
+    email = forms.EmailField()
+    subject = forms.CharField(max_length=100)
+    message = forms.CharField(widget=forms.Textarea)
+
 
