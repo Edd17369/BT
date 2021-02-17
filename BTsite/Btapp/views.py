@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 
-from .models import Ticket, TicketForm, Project, ProjectForm, Profile, ProfileForm
+from .models import Ticket, TicketForm, Project, ProjectForm, Profile, ProfileForm, Membership
 from django.contrib.auth.models import User
 
 # Forms
@@ -25,8 +25,8 @@ from django.contrib.auth.mixins import UserPassesTestMixin # *
 from collections import defaultdict
 from plotly.offline import plot
 import plotly.graph_objs as go
-import pandas as pd
-import plotly.express as px
+import pandas as pd #Sunplot
+import plotly.express as px #Sunplot
 
 
 
@@ -119,17 +119,16 @@ def new_project(request):
     user = User.objects.get(username=request.user)
     if request.method == 'POST':
         form = ProjectForm(request.POST)
-        request.POST._mutable = True
-        form.data['author'] = user
         if form.is_valid():
-            form.save()
+            project = form.save() # save() creates and saves a database object from the data bound to the form
+            #m2 = Membership.objects.create(person=user, project=project) # se crea y guarda con el de arriba
             messages.success(request, 'Your project has been saved')
             return render(request, "Btapp/new_project.html", {"form":form})
         else:
             messages.warning(request, 'Please check the field entries.')
             return render(request, "Btapp/new_project.html", {"form":form})
     else:
-        form = ProjectForm(initial={'author':user})
+        form = ProjectForm(initial={'members':user})
         return render(request, "Btapp/new_project.html", {"form":form})
 
 class ProjectIndexView(generic.ListView):
@@ -231,14 +230,9 @@ def profile(request):
             # Grafica pastel
             p = Project.objects.get(id=select)
             tickets = list(Ticket.objects.filter(project=p, author=user))
-            sizes = {'Closed':defaultdict(), 'Working on':defaultdict(), 'Registered':defaultdict()}
+            sizes = {'Closed':defaultdict(lambda:1), 'Working on':defaultdict(lambda:1), 'Registered':defaultdict(lambda:1)}
             for t in tickets:
-                stg = t.get_stage_display() 
-                lvl = t.get_level_display()
-                if lvl in sizes[stg]: 
-                    sizes[stg][lvl] += 1
-                else:
-                    sizes[stg][lvl] = 1
+                sizes[t.get_stage_display()][t.get_level_display()] += 1
             a = [v for k, v in sizes['Closed'].items()]
             trace1 = go.Pie(labels=list(sizes['Closed'].keys()), values=[v*100/sum(a) for v in a], hole=0.6, 
                         domain=dict(x=[0, 0.2]), marker=dict(line=dict(color=' #343434', width=2)), )

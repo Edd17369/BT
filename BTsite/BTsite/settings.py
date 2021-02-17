@@ -78,13 +78,26 @@ WSGI_APPLICATION = 'BTsite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
+}"""
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql', # install psycopg2 is required, Psycopg is the most popular PostgreSQL database adapter for Python.
+        # estos datos es de cuando creas la base de datos en postgresql
+        'NAME': 'BTapp', # nombre de la db 
+        'USER': 'postgres',
+        'PASSWORD': 'caitlynIBM2893', ## caitlynIBM2893
+        'HOST': 'localhost', ## localhost
+        'PORT': '5432',
+        # If the database backend supports time zones (e.g. PostgreSQL), this option is very rarely needed. It can be changed at any time; the database takes care of converting datetimes to the desired time zone
+        #'TIME_ZONE': ''  
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

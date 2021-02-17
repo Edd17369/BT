@@ -19,7 +19,7 @@
                 <tr>
                     <th data-field="id" data-sortable="true">ID Project</th>
                     <th data-field="author" data-sortable="true">Author</th>
-                    <th data-field="title"data-sortable="true">Title</th>
+                    <th data-field="title"data-sortable="true">Name</th>
                     <th data-field="registration_date" data-sortable="true">Date</th>
                     <th>Details</th>
                 </tr>
@@ -28,8 +28,8 @@
                 {% for project in project_list %}
                 <tr>
                     <td>{{project.id}}</a></td>
-                    <td>{{project.author}}</td>
-                    <td>{{project.title}}</td>
+                    <td>{{project.members}}</td>
+                    <td>{{project.name}}</td>
                     <td>{{project.registration_date}}</td>
                     <td><a href="{% url 'project_detail' project.id %}" class="btn btn-primary">Tickets</a></td>
                 </tr>

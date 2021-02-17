@@ -29,37 +29,42 @@
                 <div class=" form-group col-md-4">
                     {{form.author|as_crispy_field}}
                 </div>
+            </div>
+            <div class="form-row">
                 <div class=" form-group col-md-4">
                     {{form.project|as_crispy_field}}
                 </div>
-                <div class=" form-group col-md-8">
+            </div>
+            <div class="form-row">
+                <div class=" form-group col-md-6">
                     {{form.description|as_crispy_field}}
                 </div>
             </div>
             <div class="form-row">    
-                <div class="form-group col-md-8">
+                <div class="form-group col-md-4">
                     {{form.level|as_crispy_field}}
                 </div>
             </div>
             <div class="form-row">    
-                <div class="form-group col-md-8">
+                <div class="form-group col-md-4">
                     {{form.stage|as_crispy_field}}
                 </div>
             </div>
             <div class="form-row">
-                <div class=" form-group col-md-4">
+                <div class=" form-group col-md-6">
                     {{form.keywords|as_crispy_field}}
                 </div>
             </div>
-
             <div class="form-row">
-                <div class="form-group col-8">
-                    {{form.attachments|as_crispy_field}}
+                <div class="form-group col-md-6">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFilex1" name="attachments">   
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
                 </div>
             </div>
             <br>
-            <button type="submit" class="btn btn-outline-dark" value="Save">Submit</button> 
-
+            <button type="submit" class="btn btn-primary">Submit</button> <!--puedes usar button o input funciona igual--> 
         </form>
         <br>
     </section>

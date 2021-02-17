@@ -24,15 +24,18 @@
         <form action="/new_project/" method="POST">{% csrf_token %} <!--Cross Site Request Forgery protection-->
             <div class="form-row">
                 <div class=" form-group col-md-6">
-                    {{form.author|as_crispy_field}}
+                    {{form.members|as_crispy_field}}
                 </div>
-
+                <br>
+            </div>
+            <div class="form-row">
                 <div class=" form-group col-md-6">
-                    {{form.title|as_crispy_field}}
+                    {{form.name|as_crispy_field}}
                 </div>
             </div>
-                
-            <button type="submit" class="btn btn-outline-dark">Submit</button> <!--puedes usar button o input funciona igual-->                                                                            <!--outline es para que no tenga fondo de color y dark es el color-->           
+            <br>   
+            <p>Hold down the Ctrl or Command key to select multiple options.</p> 
+            <button type="submit" class="btn btn-primary">Submit</button>                                                                        <!--outline es para que no tenga fondo de color y dark es el color-->           
         </form>
         <br>
     </section>
