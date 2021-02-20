@@ -58,6 +58,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Radically simplified static file serving for Python web apps, pip install whitenoise
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -84,7 +87,16 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'BTsite.wsgi.application'
+
+# Web Server Gateway Interface. A simple calling convention for web servers to forward requests to web applications 
+# or frameworks written in the Python programming language.
+WSGI_APPLICATION = 'BTsite.wsgi.application'  
+
+
+# When Gunicorn is installed (pip install gunicorn), a gunicorn command is available which starts the Gunicorn server process. 
+# The simplest invocation of gunicorn is to pass the location of a module containing a WSGI application object named application,
+# which for a typical Django project would look like: gunicorn myproject.wsgi (Segun django)
+# Para deplegar en heroku escribes esto en el Procfile
 
 
 # Database
@@ -156,7 +168,7 @@ STATIC_URL = '/static/' #  this will be used as the base path for asset definiti
 # In production, you must define a STATIC_ROOT directory where collectstatic will copy them. This is the absolute path to the 
 # directory where collectstatic will collect static files for deployment. STATIC_ROOT looks in all locations defined in STATICFILES_DIRS
 # and in the 'static' directory of apps specified
-#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # segun whitenoise
 
 # Full path to a directory where store uploaded files. These files are not stored in the database, 
 # all that will be stored in your database is a path to the file
