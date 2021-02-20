@@ -31,40 +31,36 @@
 
 <section>
     <div class="row">
-        <div class="col-4">
-            <div class="card " style="width: 100%; text-align: center; height: 100%; background-color: white;">
-                <img src="{{user.profile.profile_pic.url}}" class="card-img" alt="">
+        <div class="col-5">
+            <div class="card" style="width: 100%; text-align: center; height: 100%; background-color:#343a40;">
+                <img src="{{user.profile.profile_pic.url}}" class="card-img" style="max-width: 220px; max-height: 220px;">
                 <div class="card-body">
-                    <br>
                     <a href="{% url 'password_change' %}" class="btn btn-success btn-md">Password</a>
                 </div>
             </div>
         </div>
-        <div class="col-8">
+        <div class="col-7">
             <div class="card">
-                <form enctype="multipart/form-data" action="" method="POST" style="background-color: white;">{% csrf_token %}
-                    <div class="col-md-12">
+                <form enctype="multipart/form-data" action="" method="POST" style="background-color: #ffbd08;">{% csrf_token %}
+                    <div class="col-md-8">
                         {{form.first_name|as_crispy_field}}
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         {{form.last_name|as_crispy_field}}
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         {{form.phone|as_crispy_field}}
                     </div>
                     <br>
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         <div class="custom-file">
                             <input type="file" name="profile_pic" class="custom-file-input" id="customFile" accept="image/*"> 
-                            <label class="custom-file-label" for="customFile">Choose image file</label>
+                            <label class="custom-file-label" for="customFile" style="text-align: left;">Choose image file</label>
                         </div>
                     </div>
                     <br>
                     <div class="col-md-12">
-                        <br>
-                        <center>
-                        <button type="submit" class="btn btn-info">Update</button>
-                    </center>
+                        <button type="submit" class="btn btn-dark">Update</button>
                     </div>
                     <br>
                 </form>

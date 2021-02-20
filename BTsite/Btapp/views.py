@@ -202,9 +202,10 @@ def sign(request):
 ### Profile
 def profile(request):
     user = User.objects.get(username=request.user) # un caso si user es anonimo entonces que lo redirija a login
-    projects = [p for p in Project.objects.filter(author=user) if p.has_open_tickets()]
+    #projects = [p for p in Project.objects.filter(author=user) if p.has_open_tickets()]
+    projects = [p for p in Project.objects.all() if p.has_open_tickets() and p.has_user(user)]
     # Grafica de barras
-    projectsT = [p.title for p in projects]
+    projectsT = [p.name for p in projects]
     r = [len(Ticket.objects.filter(project=pj, author=user, stage=20)) for pj in projects]
     w = [len(Ticket.objects.filter(project=pj, author=user, stage=60)) for pj in projects]
     c = [len(Ticket.objects.filter(project=pj, author=user, stage=80)) for pj in projects]
@@ -242,7 +243,7 @@ def profile(request):
             c = [v for k, v in sizes['Registered'].items()]
             trace3 = go.Pie(labels=list(sizes['Registered'].keys()), values=[v*100/sum(c) for v in c], hole=0.6, 
                         domain=dict(x=[0.6, 0.8]), marker=dict(line=dict(color=' #343434', width=2)), )     
-            layout = go.Layout(title="%s's tickets" % (p.title),)
+            layout = go.Layout(title="%s's tickets" % (p.name),)
             data = [trace1, trace2, trace3]
             fig2 = go.Figure(data=data, layout=layout)
             fig2.update_layout(
@@ -250,7 +251,7 @@ def profile(request):
                             dict(text='Working on', x=0.4, y=0.5, font_size=15, showarrow=False),
                             dict(text='Registered', x=0.75, y=0.5, font_size=15, showarrow=False)]) # Add annotations in the center of the donut pies.
             graphPie = plot(fig2, auto_open = False, output_type="div")
-            context = {'user':user, 'reports':tickets, 'projects':projects, 'pieplot':graphPie, 'barplot':graphBar, 'project':p.title}
+            context = {'user':user, 'reports':tickets, 'projects':projects, 'pieplot':graphPie, 'barplot':graphBar, 'project':p.name}
             return render(request, "Btapp/dashboard.html", context)
         else:
             messages.warning(request, 'Please select an option.')

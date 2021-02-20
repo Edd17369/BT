@@ -20,6 +20,9 @@ class Project(models.Model):
         my_tickets = Ticket.objects.filter(project=self).exclude(stage=80)
         return True if my_tickets else False
 
+    def has_user(self, user):
+        return user in self.members.all()
+
     # It’s important to add __str__() methods to your models, not only for your own convenience when dealing with the interactive
     # prompt, but also because objects’ representations are used throughout Django’s automatically-generated admin.
     def __str__(self): # returns a string representation of any object.
