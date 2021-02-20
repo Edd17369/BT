@@ -190,7 +190,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL') # tiene que ser el correo que diste en sendgrid (no el usuario: 'falsodonfalso@gmail.com') 
 
 # Error reporting
-SERVER_EMAIL = OS.getenv('DEFAULT_FROM_EMAIL') # Default 'root@localhost'. The email address that error messages come from, such as those sent to ADMINS and MANAGERS.
+SERVER_EMAIL = os.getenv('DEFAULT_FROM_EMAIL') # Default 'root@localhost'. The email address that error messages come from, such as those sent to ADMINS and MANAGERS.
 ADMINS = [('Yo', 'falsodonfalso@gmail.com')] # who should get details of exceptions raised in the request/response cycle
 MANAGERS = [('Yo', 'falsodonfalso@gmail.com')] # who should get broken link notifications
 
