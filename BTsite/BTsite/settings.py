@@ -113,9 +113,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', # install psycopg2 is required, Psycopg is the most popular PostgreSQL database adapter for Python.
         # estos datos es de cuando creas la base de datos en postgresql
-        'NAME': 'BTapp'#os.getenv('DB_NAME'), # nombre de la db 
+        'NAME': 'BTapp',#os.getenv('DB_NAME'), # nombre de la db 
         'USER': 'postgres',
-        'PASSWORD': 'caitlynIBM2893'#os.getenv('DB_PASSWORD'),
+        'PASSWORD': 'caitlynIBM2893',#os.getenv('DB_PASSWORD'),
         'HOST': 'localhost', 
         'PORT': '5432',
         # If the database backend supports time zones (e.g. PostgreSQL), this option is very rarely needed. It can be changed at any time; the database takes care of converting datetimes to the desired time zone
