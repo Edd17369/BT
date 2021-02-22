@@ -39,7 +39,7 @@ DEBUG = False # SECURITY WARNING: don't run with debug turned on in production!
 
 # A list of strings representing the host/domain names that this Django site can serve. This is a security measure to prevent
 # HTTP Host header attacks, which are possible even under many seemingly-safe web server configurations.
-ALLOWED_HOSTS = ['127.0.0.1'] # must not be empty in deployment segun py manage.py check --deploy
+ALLOWED_HOSTS = ['pezj-djapp.herokuapp.com','127.0.0.1'] # must not be empty in deployment segun py manage.py check --deploy
 
 
 # Application definition
@@ -113,9 +113,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', # install psycopg2 is required, Psycopg is the most popular PostgreSQL database adapter for Python.
         # estos datos es de cuando creas la base de datos en postgresql
-        'NAME': 'BTapp'#os.getenv('DB_NAME'), # nombre de la db 
+        'NAME': 'BTapp',#os.getenv('DB_NAME'), # nombre de la db 
         'USER': 'postgres',
-        'PASSWORD': 'caitlynIBM2893'#os.getenv('DB_PASSWORD'),
+        'PASSWORD': 'caitlynIBM2893',#os.getenv('DB_PASSWORD'),
         'HOST': 'localhost', 
         'PORT': '5432',
         # If the database backend supports time zones (e.g. PostgreSQL), this option is very rarely needed. It can be changed at any time; the database takes care of converting datetimes to the desired time zone

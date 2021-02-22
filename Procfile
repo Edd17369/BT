@@ -1,1 +1,1 @@
-web: gunicorn BTsite.wsgi --access-logfile -
+web: gunicorn BTsite.wsgi --log-file -
