@@ -39,7 +39,7 @@ DEBUG = False # SECURITY WARNING: don't run with debug turned on in production!
 
 # A list of strings representing the host/domain names that this Django site can serve. This is a security measure to prevent
 # HTTP Host header attacks, which are possible even under many seemingly-safe web server configurations.
-ALLOWED_HOSTS = ['127.0.0.1'] # must not be empty in deployment segun py manage.py check --deploy
+ALLOWED_HOSTS = ['pezj-djapp.herokuapp.com','127.0.0.1'] # must not be empty in deployment segun py manage.py check --deploy
 
 
 # Application definition
