@@ -28,8 +28,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = os.getenv("SECRET_KEY")
-SECRET_KEY = 'th#)@n14i93_690ji!r_q7^m_ol*v!%n5_651w%+t%qbt3u1!@'
+SECRET_KEY = os.getenv("SECRET_KEY")
+#SECRET_KEY = 'th#)@n14i93_690ji!r_q7^m_ol*v!%n5_651w%+t%qbt3u1!@'
 
 # Display of detailed error pages. If your app raises an exception when DEBUG is True, Django will display a detailed traceback,
 # including a lot of metadata about your environment, Django will remember every SQL query it executes. This is useful when you’re
@@ -113,9 +113,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', # install psycopg2 is required, Psycopg is the most popular PostgreSQL database adapter for Python.
         # estos datos es de cuando creas la base de datos en postgresql
-        'NAME': 'BTapp',#os.getenv('DB_NAME'), # nombre de la db 
+        'NAME': os.getenv('DB_NAME'), # nombre de la db 
         'USER': 'postgres',
-        'PASSWORD': 'caitlynIBM2893',#os.getenv('DB_PASSWORD'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': 'localhost', 
         'PORT': '5432',
         # If the database backend supports time zones (e.g. PostgreSQL), this option is very rarely needed. It can be changed at any time; the database takes care of converting datetimes to the desired time zone
@@ -180,14 +180,14 @@ MEDIA_URL = '/uploads/' # as the base public URL of that directory
 
 
 # SendGrid
-SENDGRID_API_KEY = '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'#os.getenv("SENDGRID_API_KEY")
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
-EMAIL_HOST_PASSWORD = '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'#os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DEFAULT_FROM_EMAIL = 'fausten17@hotmail.com'#os.getenv('DEFAULT_FROM_EMAIL') # tiene que ser el correo que diste en sendgrid (no el usuario: 'falsodonfalso@gmail.com') 
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL') # tiene que ser el correo que diste en sendgrid (no el usuario: 'falsodonfalso@gmail.com') 
 
 # Error reporting
 SERVER_EMAIL = os.getenv('DEFAULT_FROM_EMAIL') # Default 'root@localhost'. The email address that error messages come from, such as those sent to ADMINS and MANAGERS.
