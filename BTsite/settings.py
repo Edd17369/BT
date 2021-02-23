@@ -12,12 +12,12 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 
 # It will load environment variables from a file named .env in the current directory or any of its parents
 # load_dotenv does not override existing System environment variables. To override, pass override=True to load_dotenv().
-#load_dotenv()
+load_dotenv()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,12 +29,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
-#SECRET_KEY = 'th#)@n14i93_690ji!r_q7^m_ol*v!%n5_651w%+t%qbt3u1!@'
 
 # Display of detailed error pages. If your app raises an exception when DEBUG is True, Django will display a detailed traceback,
 # including a lot of metadata about your environment, Django will remember every SQL query it executes. This is useful when you’re
 # debugging, but it’ll rapidly consume memory on a production server.
-DEBUG = False # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
 
 
 # A list of strings representing the host/domain names that this Django site can serve. This is a security measure to prevent
@@ -168,7 +167,7 @@ STATIC_URL = '/static/' #  this will be used as the base path for asset definiti
 # In production, you must define a STATIC_ROOT directory where collectstatic will copy them. This is the absolute path to the 
 # directory where collectstatic will collect static files for deployment. STATIC_ROOT looks in all locations defined in STATICFILES_DIRS
 # and in the 'static' directory of apps specified
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # segun whitenoise
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # segun whitenoise
 
 # Full path to a directory where store uploaded files. These files are not stored in the database, 
 # all that will be stored in your database is a path to the file

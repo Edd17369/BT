@@ -295,7 +295,7 @@ def contact(request):
                 data['subject']+'-'+'Username: '+data['username'],
                 data['message']+'\n'+'From: '+data['email'],
                 settings.DEFAULT_FROM_EMAIL, # De donde se envia el correo
-                ['fausten17@gmail.com'], # A donde envia el correo, no envia al correo que diste en DEFAULT_FROM_EMAIL 
+                ['falsodonfalso@gmail.com'], # A donde envia el correo, no envia al correo que diste en DEFAULT_FROM_EMAIL 
                 fail_silently=False,)
             messages.success(request, 'Your email has been sent. Thank you for contacting us')
             return render(request, "Btapp/contact.html", {'form':form})
