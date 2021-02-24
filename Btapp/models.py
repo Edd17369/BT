@@ -23,7 +23,7 @@ class ProfileForm(ModelForm):
         widgets = {'first_name':widgets.TextInput(attrs={'class':'form-control'}),
                    'last_name':widgets.TextInput(attrs={'class':'form-control'}),
                    'phone':widgets.TextInput(attrs={'class':'form-control', 'placeholder':'Use the format ###-###-####'}),
-                   'profile_pic':widgets.FileInput(attrs={'class':'custom-file-input', 'id':'customFile'}),
+                   'profile_pic':widgets.FileInput(attrs={'class':'form-control'}),
                    }
         labels = {'profile_pic': _('Profile Picture')}
 
@@ -58,7 +58,7 @@ class ProjectForm(ModelForm):
 
 class Membership(models.Model):
     person = models.ForeignKey(User, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, related_name='memberships', on_delete=models.CASCADE)
     date_joined = models.DateTimeField(auto_now_add=True)
 
 
@@ -78,7 +78,7 @@ class Ticket(models.Model):
         Closed = 80, _('Closed')
 
     author = models.ForeignKey(User, on_delete=models.CASCADE) # many-to-many
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, related_name='tickets', on_delete=models.CASCADE)
     level = models.CharField(max_length=2, choices=Levels.choices, default=Levels.Improvement)
     stage = models.CharField(max_length=2, choices=Stages.choices, default=Stages.Registered)  
     # The field is only automatically updated when calling Model.save().
@@ -101,7 +101,7 @@ class TicketForm(ModelForm):
                    'project':widgets.Select(attrs={'class':'form-control'}),
                    'stage':widgets.Select(attrs={'class':'form-control'}),
                    'level':widgets.Select(attrs={'class':'form-control'}),
-                   'attachments':widgets.FileInput(attrs={'class':'custom-file-input', 'id':'customFilex1', 'type':'file', 'name':'attachments'})
+                   'attachments':widgets.FileInput(attrs={'class':'form-control'})
                    } 
         #labels = {'publication_date': _('Date'),
         #          'active': _('Status: Active')
@@ -120,10 +120,8 @@ class Comment(models.Model):
 class CommentForm(ModelForm):
     class Meta:
         model = Comment
-        fields = ['author', 'text']
-        widgets = {'author':widgets.TextInput(attrs={'class':'form-control'}),
-                   'text':widgets.Textarea(attrs={'class':'form-control', 'rows':4}),
-                   }
+        fields = ['text']
+        widgets = {'text':widgets.Textarea(attrs={'class':'form-control', 'rows':4}),}
 
 
 

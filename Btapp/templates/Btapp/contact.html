@@ -15,32 +15,35 @@
 
 <div class="container">
     <section>
-        <h2 class="h2-table">Contact us</h2>
+        <h1>Contact us</h1>
     </section>
+    
+    <br><br>
 
     <section>
         <form method="POST">{% csrf_token %}
             <div class="form-row">
-                <div class="form-group col-md-8">
+                <div class="form-group col-md-12">
                     {{form.username|as_crispy_field}}
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-8">
+                <div class="form-group col-md-12">
                     {{form.email|as_crispy_field}}
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-8">
+                <div class="form-group col-md-12">
                     {{form.subject|as_crispy_field}}
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-8">
+                <div class="form-group col-md-12">
                     {{form.message|as_crispy_field}}
                 </div>
             </div>
 
+            <br>
             <button type="submit" class="btn btn-primary">Sent</button>
         </form>
         <br>

@@ -17,7 +17,7 @@
 <div class="container">
     <br>
     <section>
-        <h1>Comment</h1>
+        <h1>Add a comment</h1>
     </section>
 
     <br> 
@@ -25,15 +25,14 @@
         <!--Cross Site Request Forgery protection, 
             In order to upload files, you’ll need to make sure that your <form> element correctly defines the enctype-->
         <form method="POST">{% csrf_token %} 
-            <div class="form-row">
-                <div class=" form-group col-md-6">
-                    {{ form.as_p }}
-                </div>
+          <div class="form-row">
+            <div class=" form-group col-md-8">
+                {{ form.as_p }}
             </div>
-            <br>
-            <button type="submit" class="btn btn-primary">Submit</button>   
-            </form>
-            <br>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>   
+        </form>
+        <br>
     </section>
 </div>
 

@@ -16,7 +16,7 @@
 
 <table class="table table-responsive-sm" style="margin-block: 0pt;">
     <thead>
-        <h1>Ticket {{ ticket.id }}</h1>
+        <h2 style="background-color: #343434; color: white;">Ticket {{ ticket.id }}</h2>
         <br>
     </thead>
     <tbody>
@@ -39,29 +39,33 @@
     <tbody>
         <tr><th>Description:</th><td>{{ticket.description}}</td></tr>
         <tr><th>Keywords:</th><td>{{ticket.keywords}}</td></tr>
-        <tr><th>Comments:</th><td>{{ticket.comments}}</td></tr>
-        <tr><th>Attachments:</th><td>{{ticket.attachments}}</td></tr>
+        <tr><th>Attachments:</th>
+            <td>
+                {% if ticket.attachments %}
+                    <a href="{{ticket.attachments.url}}">{{ticket.attachments.name}}</a>
+                {% endif %}
+            </td>
+        </tr>
     </tbody>
 </table>
-
-<br>
-<br>
+<hr>
+<br><br>
 <center>
-    <a href="{% url 'update_ticket' ticket.pk %}" class="btn btn-info" role="button">Update</a>
+    <a href="{% url 'update_ticket' ticket.pk %}" class="btn btn-dark" role="button">Update</a>
     &nbsp;
     <a href="{% url 'delete_ticket' ticket.pk %}" class="btn btn-danger" role="button">Delete</a>
 </center>
 
-
-
+<br><br>
 <hr>
+
 <section>
-    <h2>Comments</h2>
+    <h3 style="background-color: #343434; color: white;"><center>Comments</center></h3>
     <br>
     {% for comment in ticket.comments.all %}
     <br>
         <div class="card" style="background-color:white">
-            <h5 class="card-header"><strong>{{comment.author}} - {{comment.comment_date}}</strong></h5>
+            <h5 class="card-header"><strong>{{comment.author}} --- {{comment.comment_date}}</strong></h5>
             <div class="card-body" style="background-color:rgb(231, 231, 231)">
               <p class="card-text">{{comment.text}}</p>
             </div>

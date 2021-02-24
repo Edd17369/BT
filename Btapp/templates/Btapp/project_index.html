@@ -18,20 +18,22 @@
             <thead class="thead-dark"> <!--Ya es responsive por defecto-->
                 <tr>
                     <th data-field="id" data-sortable="true">ID Project</th>
-                    <th data-field="author" data-sortable="true">Author</th>
                     <th data-field="title"data-sortable="true">Name</th>
                     <th data-field="registration_date" data-sortable="true">Date</th>
-                    <th>Details</th>
+                    <th data-field="details"><center>Details</center></th>
                 </tr>
             </thead>
             <tbody>
                 {% for project in project_list %}
                 <tr>
-                    <td>{{project.id}}</a></td>
-                    <td>{{project.members}}</td>
-                    <td>{{project.name}}</td>
-                    <td>{{project.registration_date}}</td>
-                    <td><a href="{% url 'project_detail' project.id %}" class="btn btn-primary">Tickets</a></td>
+                    <th>{{project.id}}</a></th>
+                    <th>{{project.name}}</th>
+                    <th>{{project.registration_date}}</th>
+                    <th> 
+                        <center>
+                            <a href="{% url 'project_detail' project.pk %}" class="btn btn-primary">Go</a>
+                        </center>
+                    </th>
                 </tr>
                 {% endfor %}
             </tbody>

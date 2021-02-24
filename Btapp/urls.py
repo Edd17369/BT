@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import AddComment, AddTicket, AddProject
+from .views import AddComment, AddTicket, AddProject, ProjectDetailView
 
 # Class-based views
 from django.contrib.auth.decorators import login_required
@@ -17,16 +17,18 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', views.home, name='home'),
 
-    # Tickets y Proyectos
+    # Tickets
     path('new_ticket/', AddTicket.as_view(), name='new_ticket'),
-    path('new_project/', AddProject.as_view(), name='new_project'),
     path('ticket/index/', login_required(views.TicketIndexView.as_view()), name='ticket_index'),
-    path('project/index/', login_required(views.ProjectIndexView.as_view()), name='project_index'),
-    path('project/<int:id>/', views.project_detail, name='project_detail'),
-    #path('delete_ticket/<int:pk>', login_required(TicketDeleteView.as_view()), name='delete_ticket'),
     path('delete_ticket/<int:pk>', views.delete_ticket, name='delete_ticket'),
     path('ticket/<int:pk>/', login_required(views.TicketDetailView.as_view()), name='ticket_detail'),
     path('update_ticket/<int:pk>/', views.update_ticket, name='update_ticket'),
+
+    # Projects
+    path('new_project/', AddProject.as_view(), name='new_project'),
+    path('project/index/', login_required(views.ProjectIndexView.as_view()), name='project_index'),
+    path('project/<int:pk>/', ProjectDetailView.as_view(), name='project_detail'), 
+    path('update_project/<int:pk>/', views.update_project, name='update_project'),
 
     # Comments
     path('ticket/<int:pk>/comment/', AddComment.as_view(), name='new_comment'), 

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+<!--https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html-->
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="background-color: #ffbd08; color: black;">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+{% endfor %}
+
+
+<h1>{{project.name}}</h1>
+
+<br><br>
+
+<div class="row">
+    <div class="col-md-4">
+        <br>
+        <ul class="list-group">
+            <a href="{% url 'update_project' project.pk %}" class="list-group-item list-group-item-action active">
+                <strong><center>Members</center></strong>
+            </a>
+            {% for member in project.memberships.all %}
+                <li class="list-group-item">{{member.person}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-8">
+        <table
+            class="table table-responsive-sm table-striped "
+            id="table"
+            data-toggle="table"
+            data-search="true"
+            data-show-columns="true"
+            data-pagination="true"
+            data-height="460">
+            <thead class="thead-dark"> <!--Ya es responsive por defecto-->
+                <tr>
+                    <th data-field="id" data-sortable="true">ID</th>
+                    <th data-field="author" data-sortable="false">Author</th>
+                    <th data-field="opening_date" data-sortable="true">Date</th>
+                    <th data-field="stage" >Stage</th>
+                    <th data-field="level" >Level</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in project.tickets.all %}
+                <tr>
+                    <th>{{ticket.id}}</th>
+                    <th>{{ticket.author}}</th>
+                    <th>{{ticket.opening_date}}</th>
+                    <th>{{ticket.get_stage_display}}</th>
+                    <th>{{ticket.get_level_display}}</th>
+                    <th><a href="{% url 'ticket_detail' ticket.id %}" class="btn btn-primary">Go</a></th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+</div>
+
+<br><br>
+
+{% endblock %}

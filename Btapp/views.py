@@ -104,13 +104,14 @@ class AddComment(LoginRequiredMixin, generic.CreateView):
     model = Comment
     form_class = CommentForm
     template_name = 'Btapp/new_comment.html'
-    success_message = "Your comment [%(name)s] was created successfully"
+    #success_message = "Your comment [%(name)s] was created successfully"
     def form_valid(self, form):
         form.instance.ticket_id = self.kwargs['pk']
-        #form.instance.author = self.request.user
+        form.instance.author = self.request.user
         return super().form_valid(form)
     def get_success_url(self):
         return reverse_lazy('ticket_detail', kwargs={'pk': self.kwargs['pk']})
+        # We have to use reverse_lazy() instead of reverse(), as the urls are not loaded when the file is imported.
 
     
 
@@ -130,9 +131,31 @@ class ProjectIndexView(generic.ListView):
     def get_queryset(self): 
         return Project.objects.order_by('-registration_date')
 
-def project_detail(request, id):
-    ticket_list = Ticket.objects.filter(project=id).order_by('-opening_date')
-    return render(request, 'Btapp/ticket_index.html', {'ticket_list': ticket_list})
+class ProjectDetailView(generic.DetailView):
+    model = Project
+    template_name = 'BTapp/project_detail.html'
+
+@login_required
+def update_project(request, pk):
+    user = User.objects.get(username=request.user)
+    project = Project.objects.get(pk=pk)
+    form = ProjectForm(instance=project)
+    if request.method == 'POST':
+        if project.has_user(user):
+            form = ProjectForm(request.POST, instance=project)
+            if form.is_valid():
+                messages.success(request, 'Your project has been updated!')
+                form.save()
+                return render(request, "Btapp/project_update.html", {'form':form})
+            else:
+                messages.warning(request, 'Please check the field entries.')
+                return render(request, "Btapp/project_update.html", {'form':form})
+        else:
+            messages.warning(request, "Only project members can edit it.")
+            return render(request, "Btapp/project_update.html", {'form':form})
+    else:
+        return render(request, "Btapp/project_update.html", {'form':form})
+    
 
 
 ### USERS
