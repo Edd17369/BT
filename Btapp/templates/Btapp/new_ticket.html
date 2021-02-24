@@ -17,7 +17,7 @@
 <div class="container">
     <br>
     <section>
-        <h1>Register a new Ticket</h1>
+        <h1>Add a new Ticket</h1>
     </section>
 
     <br> 
@@ -26,37 +26,32 @@
             In order to upload files, you’ll need to make sure that your <form> element correctly defines the enctype-->
         <form enctype="multipart/form-data" action="/new_ticket/" method="POST">{% csrf_token %} 
             <div class="form-row">
-                <div class=" form-group col-md-4">
-                    {{form.author|as_crispy_field}}
-                </div>
-            </div>
-            <div class="form-row">
-                <div class=" form-group col-md-4">
+                <div class=" form-group col-md-12">
                     {{form.project|as_crispy_field}}
                 </div>
             </div>
             <div class="form-row">
-                <div class=" form-group col-md-6">
+                <div class=" form-group col-md-12">
                     {{form.description|as_crispy_field}}
                 </div>
             </div>
             <div class="form-row">    
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-12">
                     {{form.level|as_crispy_field}}
                 </div>
             </div>
             <div class="form-row">    
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-12">
                     {{form.stage|as_crispy_field}}
                 </div>
             </div>
             <div class="form-row">
-                <div class=" form-group col-md-6">
+                <div class=" form-group col-md-12">
                     {{form.keywords|as_crispy_field}}
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="customFilex1" name="attachments">   
                         <label class="custom-file-label" for="customFilex1">Choose file</label>

@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 
-from .models import Ticket, TicketForm, Project, ProjectForm, Profile, ProfileForm, Membership
+# Models
+from .models import Ticket, TicketForm, Project, ProjectForm, Profile, ProfileForm, Membership, Comment, CommentForm
 from django.contrib.auth.models import User
 
 # Forms
@@ -8,24 +10,26 @@ from .forms import SignForm, Contact
 
 # Authentication
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import  login
+from django.contrib.auth import login
 from django.contrib.auth.password_validation import validate_password, password_validators_help_text_html
-from django.conf import  settings
+from django.conf import settings
 from django.core.mail import send_mail
 
 # Messages
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 
 # Generic Views
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import UpdateView, DeleteView
-from django.contrib.auth.mixins import UserPassesTestMixin # *
+from django.contrib.auth.mixins import UserPassesTestMixin 
 
 # Graphs
 from collections import defaultdict
 from plotly.offline import plot
 import plotly.graph_objs as go
-import pandas as pd #Sunplot
+#import pandas as pd #Sunplot
 import plotly.express as px #Sunplot
 
 
@@ -36,23 +40,15 @@ def home(request):
 
 
 ### TICKETS
-@login_required # The view code is free to assume the user is logged in
-def new_ticket(request):
-    user = User.objects.get(username=request.user)
-    if request.method == 'POST':
-        form = TicketForm(request.POST, request.FILES)
-        request.POST._mutable = True
-        form.data['author'] = user
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Your ticket has been saved!')
-            return redirect('/new_ticket/')
-        else:
-            messages.warning(request, 'Please check the field entries.')
-            return redirect('/new_ticket/')
-    else:
-        form = TicketForm(initial={'author':user})
-        return render(request, "Btapp/new_ticket.html", {"form":form}) # HttpResponse object, render is just a shortcut
+class AddTicket(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
+    model = Ticket
+    form_class = TicketForm
+    template_name = 'Btapp/new_ticket.html'
+    success_url = '/new_ticket/'
+    success_message = "Ticket was created successfully"
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 class TicketIndexView(generic.ListView): # Generic display views, automaticamente recibe el object.pk de la url
     template_name = 'Btapp/ticket_index.html'
@@ -64,17 +60,7 @@ class TicketDetailView(generic.DetailView):
     model = Ticket
     template_name = 'Btapp/ticket_detail.html'
 
-"""class TicketDeleteView(DeleteView): 
-    model = Ticket
-    success_url = '/ticket/index/'
-    #default template_name needs to be 'myapp/model_check_delete.html' en este caso ticket_confirm_delete.html
-    #def get_object(self):
-    #    self.author = get_object_or_404(Ticket, pk=self.kwargs['pk'])
-    #    return Ticket.objects.filter(author=self.publisher)
-    def get_object(self): 
-        obj = super().get_object()
-        return obj
-"""
+
 def delete_ticket(request, pk): # No tiene mucho sentido eliminar un ticket
     user = User.objects.get(username=request.user)
     ticket = Ticket.objects.get(pk=pk)
@@ -90,9 +76,9 @@ def delete_ticket(request, pk): # No tiene mucho sentido eliminar un ticket
         return render(request, "Btapp/ticket_confirm_delete.html", {'object':ticket})
     
 @login_required
-def update_ticket(request, id):
+def update_ticket(request, pk):
     user = User.objects.get(username=request.user)
-    ticket = Ticket.objects.get(pk=id)
+    ticket = Ticket.objects.get(pk=pk)
     form = TicketForm(instance=ticket)
     if request.method == 'POST':
         if request.user == ticket.author:
@@ -113,23 +99,30 @@ def update_ticket(request, id):
         return render(request, "Btapp/ticket_update.html", {'form':form})
 
 
+### COMMENTS
+class AddComment(LoginRequiredMixin, generic.CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'Btapp/new_comment.html'
+    success_message = "Your comment [%(name)s] was created successfully"
+    def form_valid(self, form):
+        form.instance.ticket_id = self.kwargs['pk']
+        #form.instance.author = self.request.user
+        return super().form_valid(form)
+    def get_success_url(self):
+        return reverse_lazy('ticket_detail', kwargs={'pk': self.kwargs['pk']})
+
+    
+
 ### PROYECTOS
-@login_required()
-def new_project(request):
-    user = User.objects.get(username=request.user)
-    if request.method == 'POST':
-        form = ProjectForm(request.POST)
-        if form.is_valid():
-            project = form.save() # save() creates and saves a database object from the data bound to the form
-            #m2 = Membership.objects.create(person=user, project=project) # se crea y guarda con el de arriba
-            messages.success(request, 'Your project has been saved')
-            return render(request, "Btapp/new_project.html", {"form":form})
-        else:
-            messages.warning(request, 'Please check the field entries.')
-            return render(request, "Btapp/new_project.html", {"form":form})
-    else:
-        form = ProjectForm(initial={'members':user})
-        return render(request, "Btapp/new_project.html", {"form":form})
+class AddProject(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
+    model = Project
+    form_class = ProjectForm
+    template_name = 'Btapp/new_project.html'
+    #initial = {'members':self.request.user}
+    success_url = '/new_project/'
+    success_message = "Project [%(name)s] was created successfully"
+    # save() creates and saves a database object from ALL the data bound to the form, incluido el modelo "Membership"
 
 class ProjectIndexView(generic.ListView):
     template_name = 'Btapp/project_index.html'
@@ -137,12 +130,6 @@ class ProjectIndexView(generic.ListView):
     def get_queryset(self): 
         return Project.objects.order_by('-registration_date')
 
-"""class ProjectDetailView(generic.ListView): # No la he probado, la url regresa pk
-    template_name = 'Btapp/ticket_index.html' # abria que cambiar la url tambien
-    def get_queryset(self):
-        self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
-        return Ticket.objects.filter(project=self.project)
-"""
 def project_detail(request, id):
     ticket_list = Ticket.objects.filter(project=id).order_by('-opening_date')
     return render(request, 'Btapp/ticket_index.html', {'ticket_list': ticket_list})
@@ -172,7 +159,7 @@ def sign(request):
                 if not User.objects.filter(email=cf['email']):
                     if cf['password'] == cf['confirm_password']:
                         user = User.objects.create_user(cf['username'], cf['email'], cf['password'])
-                        profile = Profile(user=user,email=cf['email'])
+                        profile = Profile(user=user, email=cf['email'])
                         user.save()
                         profile.save()
                         login(request, user)
@@ -181,7 +168,7 @@ def sign(request):
                                    settings.DEFAULT_FROM_EMAIL,
                                    [cf['email']], 
                                    fail_silently=False,)
-                        return redirect('/profile/')
+                        return redirect('/accounts/profile/')
                     else:
                         messages.warning(request, 'The two password fields did not match.')
                         return render(request, "accounts/sign.html", {"form":form}) 
@@ -300,7 +287,7 @@ def contact(request):
             messages.success(request, 'Your email has been sent. Thank you for contacting us')
             return render(request, "Btapp/contact.html", {'form':form})
         else:
-            messages.error(request, 'Your email has not been sent. Check the data you entered')
+            messages.error(request, 'Your email has not been sent.')
             return render(request, "Btapp/contact.html", {'form':form})
     else:
         form = Contact()

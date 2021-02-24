@@ -109,17 +109,11 @@ h1 {
     border: #ffc107;
     border-style: groove;
 }
-.card{
-    align-self: center;
-    background-color: #343434;
+
 }
 .p-profile{
     font-size: 17px;
     font-style: oblique;
-}
-
-.card-text{
-    color: #ffc107;
 }
 
 .segunda-col {

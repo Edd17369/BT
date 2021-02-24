@@ -1,9 +1,9 @@
 from django.urls import path
 from . import views
+from .views import AddComment, AddTicket, AddProject
 
 # Class-based views
-from .views import UsersIndexView 
-from django.contrib.auth.decorators import  login_required # Para las CBV aunque solo sea una XD
+from django.contrib.auth.decorators import login_required
 
 # Para el sistema de autenticacion de django
 from django.contrib.auth import views as auth_views
@@ -18,15 +18,18 @@ urlpatterns = [
     path('', views.home, name='home'),
 
     # Tickets y Proyectos
-    path('new_ticket/', views.new_ticket, name='new_ticket'),
-    path('new_project/', views.new_project, name='new_project'),
-    path('ticket/index/', views.TicketIndexView.as_view(), name='ticket_index'),
-    path('project/index/', views.ProjectIndexView.as_view(), name='project_index'),
+    path('new_ticket/', AddTicket.as_view(), name='new_ticket'),
+    path('new_project/', AddProject.as_view(), name='new_project'),
+    path('ticket/index/', login_required(views.TicketIndexView.as_view()), name='ticket_index'),
+    path('project/index/', login_required(views.ProjectIndexView.as_view()), name='project_index'),
     path('project/<int:id>/', views.project_detail, name='project_detail'),
     #path('delete_ticket/<int:pk>', login_required(TicketDeleteView.as_view()), name='delete_ticket'),
     path('delete_ticket/<int:pk>', views.delete_ticket, name='delete_ticket'),
-    path('ticket/<int:pk>/', views.TicketDetailView.as_view(), name='ticket_detail'),
-    path('update_ticket/<int:id>/', views.update_ticket, name='update_ticket'),
+    path('ticket/<int:pk>/', login_required(views.TicketDetailView.as_view()), name='ticket_detail'),
+    path('update_ticket/<int:pk>/', views.update_ticket, name='update_ticket'),
+
+    # Comments
+    path('ticket/<int:pk>/comment/', AddComment.as_view(), name='new_comment'), 
 
     # Users
     path('user/index/', views.UsersIndexView.as_view(), name='user_index'),

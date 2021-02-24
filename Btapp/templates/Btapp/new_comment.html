@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+<!--https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html-->
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="background-color: #ffbd08; color: black;">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+{% endfor %}
+
+<div class="container">
+    <br>
+    <section>
+        <h1>Comment</h1>
+    </section>
+
+    <br> 
+    <section>
+        <!--Cross Site Request Forgery protection, 
+            In order to upload files, you’ll need to make sure that your <form> element correctly defines the enctype-->
+        <form method="POST">{% csrf_token %} 
+            <div class="form-row">
+                <div class=" form-group col-md-6">
+                    {{ form.as_p }}
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Submit</button>   
+            </form>
+            <br>
+    </section>
+</div>
+
+{% endblock %}

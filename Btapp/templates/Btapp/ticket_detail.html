@@ -46,19 +46,33 @@
 
 <br>
 <br>
+<center>
+    <a href="{% url 'update_ticket' ticket.pk %}" class="btn btn-info" role="button">Update</a>
+    &nbsp;
+    <a href="{% url 'delete_ticket' ticket.pk %}" class="btn btn-danger" role="button">Delete</a>
+</center>
 
-<a href="{% url 'update_ticket' ticket.id %}" class="btn btn-info" role="button">Update</a>
-<a href="{% url 'delete_ticket' ticket.pk %}" class="btn btn-danger" role="button">Delete</a>
 
 
-<br>
-<br>
+<hr>
 <section>
     <h2>Comments</h2>
+    <br>
+    {% for comment in ticket.comments.all %}
+    <br>
+        <div class="card" style="background-color:white">
+            <h5 class="card-header"><strong>{{comment.author}} - {{comment.comment_date}}</strong></h5>
+            <div class="card-body" style="background-color:rgb(231, 231, 231)">
+              <p class="card-text">{{comment.text}}</p>
+            </div>
+          </div>
+    {% endfor %}
 
-    <form enctype="multipart/form-data" action="/new_comment/" method="POST">{% csrf_token %} 
-    </form>
-
+<br><br>
+<center>
+    <a href="{% url 'new_comment' ticket.pk %}" class="btn btn-outline-dark btn-lg" role="button">Add a comment</a>
+</center>
 </section>
+<br><br>
 
 {% endblock %}

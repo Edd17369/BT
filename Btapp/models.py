@@ -7,6 +7,28 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE) # one-to-one
+    email = models.EmailField(max_length=100, null=True, blank=True)
+    first_name = models.CharField(max_length=100, null=True, blank=True) # null for the db and blank for the form validation
+    last_name = models.CharField(max_length=100, null=True, blank=True)
+    phone = models.CharField(max_length=100, null=True, blank=True)
+    profile_pic = models.ImageField(default='img/user.jpg', blank=True, null=True, upload_to = 'img') # Para ImageField necesitas instalar Pillow
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = '__all__'
+        exclude = ['user', 'email']
+        widgets = {'first_name':widgets.TextInput(attrs={'class':'form-control'}),
+                   'last_name':widgets.TextInput(attrs={'class':'form-control'}),
+                   'phone':widgets.TextInput(attrs={'class':'form-control', 'placeholder':'Use the format ###-###-####'}),
+                   'profile_pic':widgets.FileInput(attrs={'class':'custom-file-input', 'id':'customFile'}),
+                   }
+        labels = {'profile_pic': _('Profile Picture')}
+
+
+
 class Project(models.Model):
     name = models.CharField(max_length=30) # unique, verbose_name
     members = models.ManyToManyField(User, through='Membership') # many-to-many
@@ -15,11 +37,9 @@ class Project(models.Model):
     def my_tickets(self):
         list_of_tickets = Ticket.objects.filter(project=self)
         return list_of_tickets
-
     def has_open_tickets(self):
         my_tickets = Ticket.objects.filter(project=self).exclude(stage=80)
         return True if my_tickets else False
-
     def has_user(self, user):
         return user in self.members.all()
 
@@ -35,8 +55,6 @@ class ProjectForm(ModelForm):
         widgets = {'registration_date':widgets.DateTimeInput(),
                    'members':widgets.SelectMultiple(attrs={'class':'form-control'}),
                    'name':widgets.TextInput(attrs={'class':'form-control'})}
-
-
 
 class Membership(models.Model):
     person = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -61,24 +79,20 @@ class Ticket(models.Model):
 
     author = models.ForeignKey(User, on_delete=models.CASCADE) # many-to-many
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    #users_involved = models.CharField(max_length=30, null=True, blank=True)
     level = models.CharField(max_length=2, choices=Levels.choices, default=Levels.Improvement)
     stage = models.CharField(max_length=2, choices=Stages.choices, default=Stages.Registered)  
-    
     # The field is only automatically updated when calling Model.save().
     opening_date = models.DateTimeField(auto_now_add=True) # Automatically set the field to now when the object is first created.
     last_modified = models.DateTimeField(auto_now=True) # Automatically set the field to now every time the object is saved.
-
     description = models.TextField(max_length=500)
     keywords = models.TextField(max_length=100, null=True, blank=True)
-    comments = models.TextField(max_length=1000, null=True, blank=True)
     attachments = models.FileField(blank=True, null=True, upload_to='uploads') # to specify a subdirectory of MEDIA_ROOT: MEDIA_ROOT/uploads
 
 class TicketForm(ModelForm):
     class Meta:
         model = Ticket
         fields = '__all__'  # to indicate that all fields in the model should be used.
-        #exclude = ['stage'] # si quieres excluir un campo en el formulario
+        exclude = ['author'] # si quieres excluir un campo en el formulario
         widgets = {'opening_date':widgets.DateTimeInput(), # widgets: la forma en que se despliegan los campos del formulario
                    'last_modified':widgets.DateTimeInput(),
                    'description': widgets.Textarea(attrs={'rows': 4, 'class':'form-control'}),
@@ -94,22 +108,24 @@ class TicketForm(ModelForm):
         #          }
 
 
+class Comment(models.Model):
+    author = models.CharField(max_length=100, blank=True)
+    ticket = models.ForeignKey(Ticket, related_name='comments', on_delete=models.CASCADE)
+    text = models.TextField(max_length=200)
+    comment_date = models.DateTimeField(auto_now_add=True)
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE) # one-to-one
-    first_name = models.CharField(max_length=100, null=True, blank=True) # null for the db and blank for the form validation
-    last_name = models.CharField(max_length=100, null=True, blank=True)
-    phone = models.CharField(max_length=100, null=True, blank=True)
-    profile_pic = models.ImageField(default='img/user.jpg', blank=True, null=True, upload_to = 'img') # Para ImageField necesitas instalar Pillow
+    def __str__(self):
+        return 'Ticket %s - %s' %(self.ticket.id, self.author)
 
-class ProfileForm(ModelForm):
+class CommentForm(ModelForm):
     class Meta:
-        model = Profile
-        fields = '__all__'
-        exclude = ['user', 'email']
-        widgets = {'first_name':widgets.TextInput(attrs={'class':'form-control'}),
-                   'last_name':widgets.TextInput(attrs={'class':'form-control'}),
-                   'phone':widgets.TextInput(attrs={'class':'form-control', 'placeholder':'Use the format ###-###-####'}),
-                   'profile_pic':widgets.FileInput(attrs={'class':'custom-file-input', 'id':'customFile'}),
+        model = Comment
+        fields = ['author', 'text']
+        widgets = {'author':widgets.TextInput(attrs={'class':'form-control'}),
+                   'text':widgets.Textarea(attrs={'class':'form-control', 'rows':4}),
                    }
-        labels = {'profile_pic': _('Profile Picture')}
+
+
+
+
+

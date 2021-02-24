@@ -16,26 +16,18 @@
 <div class="container">
     <br>
     <section>
-        <h1>Register a new project</h1>
+        <h1>Add a new project</h1>
     </section>
 
     <br> <!--un espacio en la parte de arriba-->
     <section>
         <form action="/new_project/" method="POST">{% csrf_token %} <!--Cross Site Request Forgery protection-->
-            <div class="form-row">
-                <div class=" form-group col-md-6">
-                    {{form.members|as_crispy_field}}
-                </div>
-                <br>
-            </div>
-            <div class="form-row">
-                <div class=" form-group col-md-6">
-                    {{form.name|as_crispy_field}}
-                </div>
-            </div>
+            {{form.as_p}}
             <br>   
             <p>Hold down the Ctrl or Command key to select multiple options.</p> 
-            <button type="submit" class="btn btn-primary">Submit</button>                                                                        <!--outline es para que no tenga fondo de color y dark es el color-->           
+            <center>
+                <button type="submit" class="btn btn-primary">Submit</button>   
+            </center>                                                                     <!--outline es para que no tenga fondo de color y dark es el color-->           
         </form>
         <br>
     </section>

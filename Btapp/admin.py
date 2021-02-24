@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Ticket, Project, Profile, Membership
+from .models import Ticket, Project, Profile, Membership, Comment
 
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
@@ -37,6 +37,7 @@ class ProfileAdmin(admin.ModelAdmin):
 # Register your models here
 admin.site.register(Ticket, TicketAdmin) # La segunda entrada es solo si creaste una clase ModelAdmin
 admin.site.register(Project)
+admin.site.register(Comment)
 admin.site.register(Membership)
 # Re-register UserAdmin
 admin.site.unregister(User)
