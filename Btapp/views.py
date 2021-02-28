@@ -133,7 +133,7 @@ class ProjectIndexView(generic.ListView):
 
 class ProjectDetailView(generic.DetailView):
     model = Project
-    template_name = 'BTapp/project_detail.html'
+    template_name = 'Btapp/project_detail.html'
 
 @login_required
 def update_project(request, pk):
