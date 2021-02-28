@@ -33,7 +33,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # Display of detailed error pages. If your app raises an exception when DEBUG is True, Django will display a detailed traceback,
 # including a lot of metadata about your environment, Django will remember every SQL query it executes. This is useful when you’re
 # debugging, but it’ll rapidly consume memory on a production server.
-DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False # SECURITY WARNING: don't run with debug turned on in production!
 
 
 # A list of strings representing the host/domain names that this Django site can serve. This is a security measure to prevent
