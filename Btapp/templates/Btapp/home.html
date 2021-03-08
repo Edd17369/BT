@@ -1,8 +1,95 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block content %}
 
-<a href="{% url 'new_ticket' %}" class="dropdown-item">Ticket</a>
-<a href="{% url 'new_project' %}" class="dropdown-item">Project</a>
+
+<div id="homepage" class=""> <!--div Define capas o divisiones dentro de la pagina html-->
+    <!--id (para identificar la capa de forma única) y class (para aplicar a la capa estilos CSS).-->
+    <h1><img src="{% static 'img/logo.png' %}" alt="#">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bug" viewBox="0 0 16 16" style="color:#ffbd08">
+        <path d="M4.355.522a.5.5 0 0 1 .623.333l.291.956A4.979 4.979 0 0 1 8 1c1.007 0 1.946.298 2.731.811l.29-.956a.5.5 0 1 1 .957.29l-.41 1.352A4.985 4.985 0 0 1 13 6h.5a.5.5 0 0 0 .5-.5V5a.5.5 0 0 1 1 0v.5A1.5 1.5 0 0 1 13.5 7H13v1h1.5a.5.5 0 0 1 0 1H13v1h.5a1.5 1.5 0 0 1 1.5 1.5v.5a.5.5 0 1 1-1 0v-.5a.5.5 0 0 0-.5-.5H13a5 5 0 0 1-10 0h-.5a.5.5 0 0 0-.5.5v.5a.5.5 0 1 1-1 0v-.5A1.5 1.5 0 0 1 2.5 10H3V9H1.5a.5.5 0 0 1 0-1H3V7h-.5A1.5 1.5 0 0 1 1 5.5V5a.5.5 0 0 1 1 0v.5a.5.5 0 0 0 .5.5H3c0-1.364.547-2.601 1.432-3.503l-.41-1.352a.5.5 0 0 1 .333-.623zM4 7v4a4 4 0 0 0 3.5 3.97V7H4zm4.5 0v7.97A4 4 0 0 0 12 11V7H8.5zM12 6a3.989 3.989 0 0 0-1.334-2.982A3.983 3.983 0 0 0 8 2a3.983 3.983 0 0 0-2.667 1.018A3.989 3.989 0 0 0 4 6h8z"/>
+      </svg>
+    </h1>
+    
+    <br><br>
+
+
+    <h2 style="text-align: center; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"><strong>A simple and fast bug tracking application that helps you easily fix them.</strong></h2>
+    <br>
+    <h3 style="text-align: center">Log and track bugs</h3>
+    
+    <br><br>
+
+    <section>
+      <div class="row">
+        <div class="col-md-6">
+          <h4>What is a bug?</h4>
+          <br>
+          <p>A software bug is an error, flaw or fault in a computer program or system that causes it to produce an incorrect or unexpected result, or to behave in unintended ways. The process of finding and fixing bugs is termed "debugging" and often uses formal techniques or tools to pinpoint bugs.
+            Most bugs arise from mistakes and errors made in either a program's design or its source code, or in components and operating systems used by such programs.</p>
+        </div>
+        <div class="col-md-6">
+          <h4>What is a bug tracker?</h4>
+          <br>
+          <p>A bug tracking system or defect tracking system is a software application that keeps track of reported software bugs in software development projects. It may be regarded as a type of issue tracking system. </p>
+        </div>
+      </div>
+    </section>
+    <br><br>
+    <hr>
+    <section>
+      <br>
+      <div class="row">
+        <div class="col-md-6">
+          <h4><strong>Sign up</strong></h4>
+          <br>
+          <p>Quickly sign up for an account now. You just need to choose a username, register your email and confirm your password..</p>
+        </div>
+        <div class="col-md-6">
+          <div>
+            <img src="{% static 'img/sign.png' %}" alt="" style='height: 100%; width: 100%; object-fit: contain'>
+          </div>
+          
+        </div>
+      </div>
+      <br>
+    </section>
+    <hr>
+    <section>
+      <br>
+      <div class="row">
+        <div class="col-md-6">
+          <div>
+            <img src="{% static 'img/project.png' %}" alt="#" style='height: 100%; width: 100%; object-fit: contain'>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h4><strong>Register a project</strong></h4>
+          <br>
+          <p>Record the name of the project and the users involved with the problem or solution.</p>
+        </div>
+      </div>
+      <br>
+    </section>
+    <hr>
+    <section>
+      <br>
+      <div class="row">
+        <div class="col-md-6">
+          <h4><strong>Register a bug</strong></h4>
+          <br>
+          <p>Record errors, project tasks and improvements in a project, write a detailed description of the bug and assign it a priority and a stage (you can update it as you progress with the problem). You can also attach a file or image to the ticket to help identify the problem.</p>
+        </div>
+        <div class="col-md-6">
+          <img src="{% static 'img/ticket.png' %}" alt="" style='height: 100%; width: 100%; object-fit: contain'>
+        </div>
+      </div>
+      <br>
+    </section>
+    <hr>
+    
+</div>
 
 {% endblock %}

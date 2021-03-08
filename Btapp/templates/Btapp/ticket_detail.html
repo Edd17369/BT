@@ -37,6 +37,7 @@
 
 <table class="table table-responsive-sm" style="margin-block: 0pt;">
     <tbody>
+        <tr><th>Summary:</th><td>{{ticket.summary}}</td></tr>
         <tr><th>Description:</th><td>{{ticket.description}}</td></tr>
         <tr><th>Keywords:</th><td>{{ticket.keywords}}</td></tr>
         <tr><th>Attachments:</th>
@@ -60,7 +61,7 @@
 <hr>
 
 <section>
-    <h3 style="background-color: #343434; color: white;"><center>Comments</center></h3>
+    <h3 style="background-color: #343434; color: white;">Comments</h3>
     <br>
     {% for comment in ticket.comments.all %}
     <br>

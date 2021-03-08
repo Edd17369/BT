@@ -34,9 +34,9 @@ class Project(models.Model):
     members = models.ManyToManyField(User, through='Membership') # many-to-many
     registration_date = models.DateTimeField(auto_now_add=True)
 
-    def my_tickets(self):
-        list_of_tickets = Ticket.objects.filter(project=self)
-        return list_of_tickets
+    #def my_tickets(self): # No se necesita solo llama ObjProject.tickets.all() para obtener la lista
+    #    list_of_tickets = Ticket.objects.filter(project=self)
+    #    return list_of_tickets
     def has_open_tickets(self):
         my_tickets = Ticket.objects.filter(project=self).exclude(stage=80)
         return True if my_tickets else False
@@ -49,7 +49,7 @@ class Project(models.Model):
         return self.name
 
 class ProjectForm(ModelForm):
-    class Meta: # metadata is “anything that’s not a field”, such as ordering options or database table name
+    class Meta: # metadata is “anything that’s not a field”, such as table name or manager name or ordering
         model = Project
         fields = '__all__'
         widgets = {'registration_date':widgets.DateTimeInput(),
@@ -58,8 +58,11 @@ class ProjectForm(ModelForm):
 
 class Membership(models.Model):
     person = models.ForeignKey(User, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, related_name='memberships', on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, related_name='memberships', on_delete=models.CASCADE) # related_name the name to use for the relation from the related object back to this one.
     date_joined = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.person.__str__()
 
 
 
@@ -77,14 +80,15 @@ class Ticket(models.Model):
         Working_On = 60, _('Working on')
         Closed = 80, _('Closed')
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE) # many-to-many
+    author = models.ForeignKey(User, on_delete=models.CASCADE) # many-to-one
     project = models.ForeignKey(Project, related_name='tickets', on_delete=models.CASCADE)
+    summary = models.CharField(max_length=100)
     level = models.CharField(max_length=2, choices=Levels.choices, default=Levels.Improvement)
     stage = models.CharField(max_length=2, choices=Stages.choices, default=Stages.Registered)  
     # The field is only automatically updated when calling Model.save().
     opening_date = models.DateTimeField(auto_now_add=True) # Automatically set the field to now when the object is first created.
     last_modified = models.DateTimeField(auto_now=True) # Automatically set the field to now every time the object is saved.
-    description = models.TextField(max_length=500)
+    description = models.TextField(max_length=500, null=True, blank=True)
     keywords = models.TextField(max_length=100, null=True, blank=True)
     attachments = models.FileField(blank=True, null=True, upload_to='uploads') # to specify a subdirectory of MEDIA_ROOT: MEDIA_ROOT/uploads
 
@@ -95,13 +99,14 @@ class TicketForm(ModelForm):
         exclude = ['author'] # si quieres excluir un campo en el formulario
         widgets = {'opening_date':widgets.DateTimeInput(), # widgets: la forma en que se despliegan los campos del formulario
                    'last_modified':widgets.DateTimeInput(),
+                   'summary':widgets.TextInput(attrs={'class':'form-control'}),
                    'description': widgets.Textarea(attrs={'rows': 4, 'class':'form-control'}),
                    'keywords': widgets.Textarea(attrs={'rows':2, 'class':'form-control'}), 
                    'author': widgets.Select(attrs={'disabled': True, 'class':'form-control'}),
                    'project':widgets.Select(attrs={'class':'form-control'}),
                    'stage':widgets.Select(attrs={'class':'form-control'}),
                    'level':widgets.Select(attrs={'class':'form-control'}),
-                   'attachments':widgets.FileInput(attrs={'class':'form-control'})
+                   'attachments':widgets.FileInput(attrs={'class':'form-control'}) # 'id':'customFile01', 'class':'custom-file-input', 'type':'file'
                    } 
         #labels = {'publication_date': _('Date'),
         #          'active': _('Status: Active')

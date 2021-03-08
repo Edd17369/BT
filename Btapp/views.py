@@ -60,7 +60,7 @@ class TicketDetailView(generic.DetailView):
     model = Ticket
     template_name = 'Btapp/ticket_detail.html'
 
-
+@login_required
 def delete_ticket(request, pk): # No tiene mucho sentido eliminar un ticket
     user = User.objects.get(username=request.user)
     ticket = Ticket.objects.get(pk=pk)
@@ -133,7 +133,7 @@ class ProjectIndexView(generic.ListView):
 
 class ProjectDetailView(generic.DetailView):
     model = Project
-    template_name = 'BTapp/project_detail.html'
+    template_name = 'Btapp/project_detail.html'
 
 @login_required
 def update_project(request, pk):
@@ -253,9 +253,9 @@ def profile(request):
             c = [v for k, v in sizes['Registered'].items()]
             trace3 = go.Pie(labels=list(sizes['Registered'].keys()), values=[v*100/sum(c) for v in c], hole=0.6, 
                         domain=dict(x=[0.6, 0.8]), marker=dict(line=dict(color=' #343434', width=2)), )     
-            layout = go.Layout(title="%s's tickets" % (p.name),)
+            #layout = go.Layout(title="%s's tickets" % (p.name),)
             data = [trace1, trace2, trace3]
-            fig2 = go.Figure(data=data, layout=layout)
+            fig2 = go.Figure(data=data, ) #layout=layout
             fig2.update_layout(
                 annotations=[dict(text='Closed', x=0.07, y=0.5, font_size=15, showarrow=False),
                             dict(text='Working on', x=0.4, y=0.5, font_size=15, showarrow=False),

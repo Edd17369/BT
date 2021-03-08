@@ -1,66 +1,75 @@
 {% extends "base.html" %}
 
-<!--https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html-->
 {% load crispy_forms_tags %}
 
 {% block content %}
 
-{% for message in messages %}
-  <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="background-color: #ffbd08; color: black;">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    {{ message }}
-  </div>
-{% endfor %}
 
-<div class="container">
-    <br>
-    <section>
-        <h1>Add a new Ticket</h1>
-    </section>
+<div class="main row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <section>
+            <br>
+            {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="background-color: #ffbd08; color: black;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </section>
+        <section>
+            <br>
+            <h1>Add a new Ticket</h1>
+            <br>
+            <!--Cross Site Request Forgery protection, 
+                In order to upload files, you’ll need to make sure that your <form> element correctly defines the enctype-->
+            <form enctype="multipart/form-data" action="/new_ticket/" method="POST">{% csrf_token %} 
+                <div class="form-row">
+                    <div class=" form-group col-md-12">
+                        {{form.project|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class=" form-group col-md-12">
+                        {{form.summary|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class=" form-group col-md-12">
+                        {{form.description|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="form-row">    
+                    <div class="form-group col-md-12">
+                        {{form.level|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="form-row">    
+                    <div class="form-group col-md-12">
+                        {{form.stage|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class=" form-group col-md-12">
+                        {{form.keywords|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <label style="color: #000000;">Choose file</label>
+                        {{form.attachments|as_crispy_field}}
+                    </div>
+                </div>
 
-    <br> 
-    <section>
-        <!--Cross Site Request Forgery protection, 
-            In order to upload files, you’ll need to make sure that your <form> element correctly defines the enctype-->
-        <form enctype="multipart/form-data" action="/new_ticket/" method="POST">{% csrf_token %} 
-            <div class="form-row">
-                <div class=" form-group col-md-12">
-                    {{form.project|as_crispy_field}}
-                </div>
-            </div>
-            <div class="form-row">
-                <div class=" form-group col-md-12">
-                    {{form.description|as_crispy_field}}
-                </div>
-            </div>
-            <div class="form-row">    
-                <div class="form-group col-md-12">
-                    {{form.level|as_crispy_field}}
-                </div>
-            </div>
-            <div class="form-row">    
-                <div class="form-group col-md-12">
-                    {{form.stage|as_crispy_field}}
-                </div>
-            </div>
-            <div class="form-row">
-                <div class=" form-group col-md-12">
-                    {{form.keywords|as_crispy_field}}
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-12">
-                    <label style="color: #000000;"></label>
-                    {{form.attachments|as_crispy_field}}
-                </div>
-            </div>
-            <br>
-            <button type="submit" class="btn btn-primary">Submit</button> <!--puedes usar button o input funciona igual-->      
-            </form>
-            <br>
-    </section>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button> <!--puedes usar button o input funciona igual-->      
+                </form>
+                <br>
+        </section>
+    </div>
+    <div class="col-1"></div>
 </div>
 
 {% endblock %}

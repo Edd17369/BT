@@ -125,10 +125,6 @@ WSGI_APPLICATION = 'BTsite.wsgi.application'
 
 DATABASES = {}
 import dj_database_url
-# This simple Django utility allows you to utilize the 12factor inspired DATABASE_URL environment 
-# variable to configure your Django application.
-# The code for a twelve-factor app makes no distinction between local and third party services. To 
-# the app, both are attached resources, accessed via a URL or other locator/credentials stored in the config. 
 
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 # The dj_database_url.config method returns a Django database connection dictionary, populated with all 
@@ -187,9 +183,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # segun whitenoise
 MEDIA_ROOT = BASE_DIR / Path('static') #os.path.join(BASE_DIR, 'Btapp/static/uploads') 
 MEDIA_URL = '/uploads/' # as the base public URL of that directory
 
-# Igual que STATICFILES_DIRS sirve para buscar otros templates fuera de la app
-# TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'template').replace('\\','/'),) # Agregarlo tampoco cambia nada
-
 
 # SendGrid
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
@@ -215,7 +208,7 @@ CSRF_COOKIE_SECURE = True # NO tengo un certificado de seguridad SSL para maneja
 SESSION_COOKIE_SECURE = True # NO tengo SSL
 
 # AWS
-## pip django-storages
+## django-storages
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' # To upload your media files to S3 set
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' # To allow 'collectstatic' to automatically put your static files in your bucket
 AWS_S3_FILE_OVERWRITE = False

@@ -32,6 +32,11 @@
             </div>
             <div class="form-row">
                 <div class=" form-group col-md-12">
+                    {{form.summary|as_crispy_field}}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class=" form-group col-md-12">
                     {{form.description|as_crispy_field}}
                 </div>
             </div>

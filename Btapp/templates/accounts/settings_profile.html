@@ -4,14 +4,6 @@
 
 {% block content %}
 
-{% for message in messages %}
-  <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="background-color: #ffbd08; color: black;">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    {{ message }}
-  </div>
-{% endfor %}
 
 <style>
     .card-img{
@@ -27,44 +19,60 @@
     }
 </style>
 
-<h3 class="h3-table">Settings Account</h3>
-
-<section>
-    <div class="row">
-        <div class="col-5">
-            <div class="card" style="width: 100%; text-align: center; height: 100%; background-color:#343a40;">
-                <img src="{{user.profile.profile_pic.url}}" class="card-img" style="max-width: 220px; max-height: 220px;">
-                <div class="card-body">
-                    <a href="{% url 'password_change' %}" class="btn btn-success btn-md">Password</a>
+<div class="main row">
+    <div class="col-md-12">
+        <section>
+            <br>
+            {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="background-color: #ffbd08; color: black;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </section> 
+        <section>
+            <br>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-3">
+                    <div class="card" style="width: 100%; text-align: center; height: 100%; background-color:#343a40;">
+                        <img src="{{user.profile.profile_pic.url}}" class="card-img" style="max-width: 220px; max-height: 220px;">
+                        <div class="card-body">
+                            <a href="{% url 'password_change' %}" class="btn btn-success btn-md">Password</a>
+                        </div>
+                    </div>
                 </div>
+                <div class="col-md-7">
+                    <div class="card">
+                        <form enctype="multipart/form-data" action="" method="POST" style="background-color: #ffbd08;">{% csrf_token %}
+                            <div class="col-md-12">
+                                {{form.first_name|as_crispy_field}}
+                            </div>
+                            <div class="col-md-12">
+                                {{form.last_name|as_crispy_field}}
+                            </div>
+                            <div class="col-md-12">
+                                {{form.phone|as_crispy_field}}
+                            </div>
+                            <div class="col-md-12">
+                                <label style="color: #000000;"></label>
+                                {{form.profile_pic|as_crispy_field}}
+                            </div>
+                            <br>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-dark">Update</button>
+                            </div>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
             </div>
-        </div>
-        <div class="col-7">
-            <div class="card">
-                <form enctype="multipart/form-data" action="" method="POST" style="background-color: #ffbd08;">{% csrf_token %}
-                    <div class="col-md-8">
-                        {{form.first_name|as_crispy_field}}
-                    </div>
-                    <div class="col-md-8">
-                        {{form.last_name|as_crispy_field}}
-                    </div>
-                    <div class="col-md-8">
-                        {{form.phone|as_crispy_field}}
-                    </div>
-                    <div class="col-md-8">
-                        <label style="color: #000000;"></label>
-                        {{form.profile_pic|as_crispy_field}}
-                    </div>
-                    <br>
-                    <div class="col-md-12">
-                        <button type="submit" class="btn btn-dark">Update</button>
-                    </div>
-                    <br>
-                </form>
-            </div>
-        </div>
+            <br>
+        </section>
     </div>
-    <br>
-</section>
+</div>
 
 {% endblock %}

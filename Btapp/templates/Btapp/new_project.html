@@ -4,33 +4,36 @@
 
 {% block content %}
 
-{% for message in messages %}
-  <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="background-color: #ffbd08; color: black;">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    {{ message }}
-  </div>
-{% endfor %}
 
-<div class="container">
-    <br>
+<div class="row">
+  <div class="col-1"></div>
+  <div class="col-10">
     <section>
-        <h1>Add a new project</h1>
+      <br>
+      {% for message in messages %}
+      <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="background-color: #ffbd08; color: black;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+      </div>
+    {% endfor %}
     </section>
-
-    <br> <!--un espacio en la parte de arriba-->
     <section>
-        <form action="/new_project/" method="POST">{% csrf_token %} <!--Cross Site Request Forgery protection-->
-            {{form.as_p}}
-            <br>   
-            <p>Hold down the Ctrl or Command key to select multiple options.</p> 
-            <center>
-                <button type="submit" class="btn btn-primary">Submit</button>   
-            </center>                                                                     <!--outline es para que no tenga fondo de color y dark es el color-->           
-        </form>
+      <br>
+      <h1>Add a new project</h1>
+      <br>
+
+      <form action="/new_project/" method="POST">{% csrf_token %} <!--Cross Site Request Forgery protection-->
+          {{form.as_p}}
+          <br>   
+          <p>Hold down the Ctrl or Command key to select multiple options.</p> 
+          <button type="submit" class="btn btn-primary">Submit</button>                                                                        <!--outline es para que no tenga fondo de color y dark es el color-->           
+      </form>
         <br>
     </section>
+  </div>
+  <div class="col-1"></div>
 </div>
 
 {% endblock %}
