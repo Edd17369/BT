@@ -21,9 +21,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 # Generic Views
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin,  UserPassesTestMixin 
 from django.views.generic.edit import UpdateView, DeleteView
-from django.contrib.auth.mixins import UserPassesTestMixin 
+
 
 # Graphs
 from collections import defaultdict
@@ -70,7 +70,7 @@ def delete_ticket(request, pk): # No tiene mucho sentido eliminar un ticket
             ticket_list = Ticket.objects.order_by('-opening_date')
             return render(request, "Btapp/ticket_index.html", {'ticket_list':ticket_list})
         else:
-            messages.warning(request, "Only the ticket's author can delet it.")
+            messages.warning(request, "Only the ticket's author can delete it.")
             return render(request, "Btapp/ticket_detail.html", {'ticket':ticket})
     else:
         return render(request, "Btapp/ticket_confirm_delete.html", {'object':ticket})

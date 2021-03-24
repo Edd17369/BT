@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
-from .views import AddComment, AddTicket, AddProject, ProjectDetailView
+from Btapp import views
+from Btapp.views import AddComment, AddTicket, AddProject, ProjectDetailView
 
 # Class-based views
 from django.contrib.auth.decorators import login_required
