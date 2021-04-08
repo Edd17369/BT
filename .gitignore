@@ -1,3 +1,6 @@
 .btenv
+__pycache__
+.gitignore
 .env
 .vscode
+migrations
