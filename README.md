@@ -1,9 +1,10 @@
-# System of Linear Equations Solver
+# BugTracker
 
 ## Table of contents
 * [Introduction](#introduction)
+* [Features](#features)
 * [Technologies](#technologies)
-* [Example](#example)
+
 
 
 ## Introduction
@@ -20,8 +21,6 @@ Register tickets, write a description of the problem and select the level of imp
 
 In your profile page you can see in a detailed and graphical way the status of your projects and the tickets that you have published. You can edit your personal data, select a profile image and manage your password.
 
-* Ticket handle attachments.
-* Graphic description about the status of you projects and tickets.
 
 
 ## Features
