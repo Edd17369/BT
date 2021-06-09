@@ -109,7 +109,7 @@ WSGI_APPLICATION = 'BTsite.wsgi.application'
     }
 }"""
 
-"""DATABASES = {
+""" DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', # install psycopg2 is required, Psycopg is the most popular PostgreSQL database adapter for Python.
         # estos datos es de cuando creas la base de datos en postgresql
@@ -121,7 +121,7 @@ WSGI_APPLICATION = 'BTsite.wsgi.application'
         # If the database backend supports time zones (e.g. PostgreSQL), this option is very rarely needed. It can be changed at any time; the database takes care of converting datetimes to the desired time zone
         #'TIME_ZONE': ''  
     }
-}"""
+} """
 
 DATABASES = {}
 import dj_database_url
@@ -202,10 +202,10 @@ MANAGERS = [('Yo', os.getenv('DEFAULT_FROM_EMAIL'))] # who should get broken lin
 
 # Set this to True to avoid transmitting the CSRF cookie over HTTP accidentally. If this is set to True, the cookie will be
 # marked as “secure”, which means browsers may ensure that the cookie is only sent with an HTTPS connection.
-CSRF_COOKIE_SECURE = True # NO tengo un certificado de seguridad SSL para manejar conexiones HTTPS
+#CSRF_COOKIE_SECURE = True # NO tengo un certificado de seguridad SSL para manejar conexiones HTTPS
 # If this is set to True, the cookie will be marked as “secure”, which means browsers may ensure that the cookie is only sent 
 # under an HTTPS connection.
-SESSION_COOKIE_SECURE = True # NO tengo SSL
+#SESSION_COOKIE_SECURE = True # NO tengo SSL
 
 # AWS
 ## django-storages
